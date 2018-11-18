@@ -76,6 +76,7 @@ public class Main {
         for (int i = 0; i < allMonsters.size(); i++){
             countKill.put(allMonsters.get(i).name, 0);
         }
+        Li
 //        int countKill = 0;
         for (int i = 0; i < 1;)
             if (hero.hp > 0) {
