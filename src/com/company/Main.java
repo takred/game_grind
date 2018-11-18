@@ -1,16 +1,19 @@
 package com.company;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     static int fightResult(Character hero, Character monster){
         for (int i = 0; i < 1000; i++){
-            if(monster.hp - hero.str > 0) {
-                monster.hp = monster.hp - hero.str;
-                System.out.println("Вы нанесли " + monster.name + " " + hero.str + " урона." + " У " + monster.name +
-                        " осталось " + monster.hp + " здоровья.");
+            int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
+            int currentDamageMonster = currentDamage(monster.minStr, monster.maxStr);
+            if(monster.hp - currentDamageHero > 0) {
+                monster.hp = monster.hp - currentDamageHero;
+                System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
+                        + " осталось " + monster.hp + " здоровья.");
             }else {
-                System.out.println("Вы нанесли " + monster.name + " " + hero.str + " урона.");
+                System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
                 System.out.println("Вы убили " + monster.name + ".");
                 hero.exp = hero.exp + monster.exp;
                 monster.hp = monster.maxHp;
@@ -22,13 +25,13 @@ public class Main {
                 System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
                 return 0;
             }
-            if (hero.hp - monster.str > 0){
-                hero.hp = hero.hp - monster.str;
-                System.out.println(monster.name + " нанёс вам " + monster.str + " урона." + " У вас осталось "
+            if (hero.hp - currentDamageMonster > 0){
+                hero.hp = hero.hp - currentDamageMonster;
+                System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
                         + hero.hp + " здоровья.");
             } else {
-                hero.hp = hero.hp - monster.str;
-                System.out.println(monster.name + " нанёс вам " + monster.str + " урона.");
+                hero.hp = hero.hp - currentDamageMonster;
+                System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
                 System.out.println("Вас убил " + monster.name + ".");
                 return 1;
             }
@@ -38,29 +41,36 @@ public class Main {
     static Character lvlUp(Character hero){
         hero.maxHp = hero.maxHp + 10;
         hero.hp = hero.maxHp;
-        hero.str = hero.str + 1;
+        hero.minStr = hero.minStr + 1;
+        hero.maxStr = hero.maxStr + 1;
         hero.exp = hero.exp - hero.nextLvl;
         hero.nextLvl = hero.nextLvl * 2;
         return hero;
+    }
+    static int currentDamage(int minStr, int maxStr){
+        if (minStr != maxStr){
+            return ThreadLocalRandom.current().nextInt(minStr, maxStr);
+        }
+        return minStr;
     }
 
     public static void main(String[] args) {
 	// write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 10, 10, 0);
+        Character hero = new Character("Garm", 100, 100, 8, 11, 10, 0);
         List<Character> allMonsters = new ArrayList<>();
         Character character;
-        character = new Character("Giant rat", 65, 65, 7, 10);
+        character = new Character("Giant rat", 65, 65, 4, 7, 10);
         allMonsters.add(character);
-        character = new Character("Goblin", 90, 90, 8, 15);
+        character = new Character("Goblin", 90, 90, 6, 9, 15);
         allMonsters.add(character);
-        character = new Character("Familiar", 165, 165, 5, 20);
+        character = new Character("Familiar", 165, 165, 2, 6, 20);
         allMonsters.add(character);
-        character = new Character("Wolf", 105, 105, 9, 25);
+        character = new Character("Wolf", 105, 105, 7, 11, 25);
         allMonsters.add(character);
-        character = new Character("Ghoul", 150, 150, 6, 30);
+        character = new Character("Ghoul", 150, 150, 5, 8, 30);
         allMonsters.add(character);
-        character = new Character("Ghost", 130, 130, 10, 35);
+        character = new Character("Ghost", 130, 130, 10, 10, 35);
         allMonsters.add(character);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++){
@@ -110,5 +120,8 @@ public class Main {
                 System.out.println(stringIntegerEntry.getKey() + " - " + stringIntegerEntry.getValue());
             }
         }
+//
+//        ThreadLocalRandom current = ThreadLocalRandom.current();
+//        current.nextInt(allMonsters.get(1).minStr - 2, )
     }
 }
