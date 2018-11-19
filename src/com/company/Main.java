@@ -19,7 +19,7 @@ public class Main {
                 monster.hp = monster.maxHp;
                 System.out.println("Вы получили " + monster.exp + " опыта.");
                 if (hero.exp >= hero.nextLvl){
-                    System.out.println("Вы повысили уровень!");
+                    System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
                     hero = lvlUp(hero);
                 }
                 System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
@@ -39,6 +39,20 @@ public class Main {
         return 2;
     }
     static Character lvlUp(Character hero){
+        hero.lvl = hero.lvl + 1;
+        if (hero.lvl % 4 == 0){
+            System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
+                    " 2 - увеличить минимальнй порог урона на 2; 3 - увеличить максимальный порог урона на 2;");
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
+            if (choice == 1){
+                hero.maxHp = hero.maxHp + 20;
+            }else if (choice == 2){
+                hero.minStr = hero.minStr + 2;
+            }else if (choice == 3){
+                hero.maxStr = hero.maxStr + 2;
+            }
+        }
         hero.maxHp = hero.maxHp + 10;
         hero.hp = hero.maxHp;
         hero.minStr = hero.minStr + 1;
@@ -57,7 +71,7 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 8, 11, 10, 0);
+        Character hero = new Character("Garm", 100, 100, 8,11, 1, 10, 0);
         List<Character> allMonsters = new ArrayList<>();
         Character character;
         character = new Character("Giant rat", 65, 65, 4, 7, 10);
@@ -76,8 +90,8 @@ public class Main {
         for (int i = 0; i < allMonsters.size(); i++){
             countKill.put(allMonsters.get(i).name, 0);
         }
-        Li
-//        int countKill = 0;
+        List<Item> allItems = new ArrayList<>();
+
         for (int i = 0; i < 1;)
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
