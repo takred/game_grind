@@ -4,61 +4,35 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    static int fightResult(Character hero, Character monster){
-        for (int i = 0; i < 1000; i++){
-            int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
-            int currentDamageMonster = currentDamage(monster.minStr, monster.maxStr);
-            if(monster.hp - currentDamageHero > 0) {
-                monster.hp = monster.hp - currentDamageHero;
-                System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
-                        + " осталось " + monster.hp + " здоровья.");
-                if (hero.perkDoubleAttack){
-                    int result = secondAttack(hero, monster);
-                    if (result == 0){
-                        return result;
-                    }
-                }
-            }else {
-                System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
-                System.out.println("Вы убили " + monster.name + ".");
-                hero.exp = hero.exp + monster.exp;
-                monster.hp = monster.maxHp;
-                System.out.println("Вы получили " + monster.exp + " опыта.");
-                if (hero.exp >= hero.nextLvl){
-                    System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
-                    hero = lvlUp(hero);
-                }
-                System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
+    static int fightResult(Character hero, Character monster) {
+        for (int i = 0; i < 1000; i++) {
+            boolean resultHeroAttack = heroAttack(hero, monster);
+            if (resultHeroAttack) {
                 return 0;
             }
-            if (hero.hp - currentDamageMonster > 0){
-                hero.hp = hero.hp - currentDamageMonster;
-                System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
-                        + hero.hp + " здоровья.");
-            } else {
-                hero.hp = hero.hp - currentDamageMonster;
-                System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
-                System.out.println("Вас убил " + monster.name + ".");
+            boolean resultMonsterAttack = monsterAttack(hero, monster);
+            if (resultMonsterAttack){
                 return 1;
             }
         }
         return 2;
     }
-    static Character lvlUp(Character hero){
+
+    static Character lvlUp(Character hero) {
         hero.lvl = hero.lvl + 1;
-        if (hero.lvl % 4 == 0 && hero.lvl != 32){
+        if (hero.lvl % 4 == 0 && hero.lvl != 32) {
             System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
                     " 2 - увеличить минимальнй порог урона на 2; 3 - увеличить максимальный порог урона на 2;");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
-            if (choice == 1){
+            if (choice == 1) {
                 hero.maxHp = hero.maxHp + 20;
-            }else if (choice == 2){
+            } else if (choice == 2) {
                 hero.minStr = hero.minStr + 2;
-            }else if (choice == 3){
+            } else if (choice == 3) {
                 hero.maxStr = hero.maxStr + 2;
             }
-        }else if (hero.lvl == 32){
+        } else if (hero.lvl == 32) {
             System.out.println("Вы получили новую особенность - \"Двойной удар\"!");
             hero.perkDoubleAttack = true;
         }
@@ -70,39 +44,83 @@ public class Main {
         hero.nextLvl = hero.nextLvl * 2;
         return hero;
     }
-    static int currentDamage(int minStr, int maxStr){
-        if (minStr != maxStr){
+
+    static int currentDamage(int minStr, int maxStr) {
+        if (minStr != maxStr) {
             return ThreadLocalRandom.current().nextInt(minStr, maxStr);
         }
         return minStr;
     }
-    static  int secondAttack (Character hero, Character monster){
+
+    static boolean secondAttack(Character hero, Character monster) {
         System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
         int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
-        if(monster.hp - currentDamageHero > 0) {
+        if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
                     + " осталось " + monster.hp + " здоровья.");
-        }else {
+        } else {
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
             System.out.println("Вы убили " + monster.name + ".");
             hero.exp = hero.exp + monster.exp;
             monster.hp = monster.maxHp;
             System.out.println("Вы получили " + monster.exp + " опыта.");
-            if (hero.exp >= hero.nextLvl){
+            if (hero.exp >= hero.nextLvl) {
                 System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
                 hero = lvlUp(hero);
             }
             System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
-            return 0;
+            return true;
         }
-        return 1;
+        return false;
+    }
+
+    static boolean heroAttack(Character hero, Character monster) {
+        int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
+        if (monster.hp - currentDamageHero > 0) {
+            monster.hp = monster.hp - currentDamageHero;
+            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
+                    + " осталось " + monster.hp + " здоровья.");
+            if (hero.perkDoubleAttack) {
+                boolean result = secondAttack(hero, monster);
+                if (result) {
+                    return result;
+                }
+            }
+        } else {
+            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
+            System.out.println("Вы убили " + monster.name + ".");
+            hero.exp = hero.exp + monster.exp;
+            monster.hp = monster.maxHp;
+            System.out.println("Вы получили " + monster.exp + " опыта.");
+            if (hero.exp >= hero.nextLvl) {
+                System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
+                hero = lvlUp(hero);
+            }
+            System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
+            return true;
+        }
+        return false;
+    }
+    static boolean monsterAttack(Character hero, Character monster){
+        int currentDamageMonster = currentDamage(monster.minStr, monster.maxStr);
+        if (hero.hp - currentDamageMonster > 0) {
+            hero.hp = hero.hp - currentDamageMonster;
+            System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
+                    + hero.hp + " здоровья.");
+        } else {
+            hero.hp = hero.hp - currentDamageMonster;
+            System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
+            System.out.println("Вас убил " + monster.name + ".");
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
-	// write your code here
+        // write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 8,11, 1, 10, 0, true);
+        Character hero = new Character("Garm", 100, 100, 8, 11, 1, 10, 0, false);
         List<Character> allMonsters = new ArrayList<>();
         Character character;
         character = new Character("Giant rat", 65, 65, 4, 7, 10);
@@ -118,12 +136,12 @@ public class Main {
         character = new Character("Ghost", 130, 130, 10, 10, 35);
         allMonsters.add(character);
         Map<String, Integer> countKill = new HashMap<>();
-        for (int i = 0; i < allMonsters.size(); i++){
+        for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
         }
         List<Item> allItems = new ArrayList<>();
 
-        for (int i = 0; i < 1;)
+        for (int i = 0; i < 1; )
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
                 System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья); 3 - отступить.");
@@ -166,8 +184,8 @@ public class Main {
                 System.out.println(stringIntegerEntry.getKey() + " - " + stringIntegerEntry.getValue());
             }
         }
+    }
+}
 //
 //        ThreadLocalRandom current = ThreadLocalRandom.current();
 //        current.nextInt(allMonsters.get(1).minStr - 2, )
-    }
-}
