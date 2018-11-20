@@ -10,6 +10,13 @@ public class Main {
             if (resultHeroAttack) {
                 return 0;
             }
+            if(hero.perkDoubleAttack){
+                System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
+                resultHeroAttack = heroAttack(hero, monster);
+                if (resultHeroAttack){
+                    return 0;
+                }
+            }
             boolean resultMonsterAttack = monsterAttack(hero, monster);
             if (resultMonsterAttack){
                 return 1;
@@ -52,41 +59,12 @@ public class Main {
         return minStr;
     }
 
-    static boolean secondAttack(Character hero, Character monster) {
-        System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
-        int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
-        if (monster.hp - currentDamageHero > 0) {
-            monster.hp = monster.hp - currentDamageHero;
-            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
-                    + " осталось " + monster.hp + " здоровья.");
-        } else {
-            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
-            System.out.println("Вы убили " + monster.name + ".");
-            hero.exp = hero.exp + monster.exp;
-            monster.hp = monster.maxHp;
-            System.out.println("Вы получили " + monster.exp + " опыта.");
-            if (hero.exp >= hero.nextLvl) {
-                System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
-                hero = lvlUp(hero);
-            }
-            System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
-            return true;
-        }
-        return false;
-    }
-
     static boolean heroAttack(Character hero, Character monster) {
         int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
         if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
                     + " осталось " + monster.hp + " здоровья.");
-            if (hero.perkDoubleAttack) {
-                boolean result = secondAttack(hero, monster);
-                if (result) {
-                    return result;
-                }
-            }
         } else {
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
             System.out.println("Вы убили " + monster.name + ".");
