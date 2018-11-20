@@ -9,9 +9,9 @@ public class Character {
     int lvl;
     int nextLvl;
     int exp;
-    boolean perkDubleAttack;
+    boolean perkDoubleAttack;
 
-    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDubleAttack){
+    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
         this.name = name;
         this.maxHp = maxHp;
         this.hp = hp;
@@ -20,7 +20,7 @@ public class Character {
         this.lvl = lvl;
         this.nextLvl = nextLvl;
         this.exp = exp;
-        this.perkDubleAttack = perkDubleAttack;
+        this.perkDoubleAttack = perkDoubleAttack;
     }
     public Character(String name, int maxHp, int hp, int minStr, int maxStr, int exp){
         this.name = name;
