@@ -12,7 +12,7 @@ public class Main {
                 monster.hp = monster.hp - currentDamageHero;
                 System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
                         + " осталось " + monster.hp + " здоровья.");
-                if (hero.perkDubleAttack == 1){
+                if (hero.perkDubleAttack){
                     System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
                     if(monster.hp - currentDamageHero > 0) {
                         monster.hp = monster.hp - currentDamageHero;
@@ -74,7 +74,7 @@ public class Main {
             }
         }else if (hero.lvl == 32){
             System.out.println("Вы получили новую особенность - \"Двойной удар\"!");
-            hero.perkDubleAttack = 1;
+            hero.perkDubleAttack = true;
         }
         hero.maxHp = hero.maxHp + 10;
         hero.hp = hero.maxHp;
@@ -94,7 +94,7 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 8,11, 1, 10, 0, 0);
+        Character hero = new Character("Garm", 100, 100, 8,11, 1, 10, 0, false);
         List<Character> allMonsters = new ArrayList<>();
         Character character;
         character = new Character("Giant rat", 65, 65, 4, 7, 10);
