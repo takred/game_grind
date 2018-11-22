@@ -52,6 +52,16 @@ public class Main {
         return hero;
     }
 
+    static Character recreation(Character hero){
+        if (hero.maxHp - hero.hp < 20) {
+            hero.hp = hero.maxHp;
+        } else {
+            hero.hp = hero.hp + 20;
+        }
+        System.out.println("Вы отдохнули.");
+        return hero;
+    }
+
     static int currentDamage(int minStr, int maxStr) {
         if (minStr != maxStr) {
             return ThreadLocalRandom.current().nextInt(minStr, maxStr);
@@ -140,13 +150,7 @@ public class Main {
                     }
                     System.out.println();
                 } else if (switcherMode == 2) {
-                    if (hero.maxHp - hero.hp < 20) {
-                        hero.hp = hero.maxHp;
-                        System.out.println("Вы отдохнули.");
-                    } else {
-                        hero.hp = hero.hp + 20;
-                        System.out.println("Вы отдохнули.");
-                    }
+                    recreation(hero);
                 } else if (switcherMode == 3) {
                     System.out.println("Вы отступили. За сессию вы убили:");
 
