@@ -104,12 +104,7 @@ public class Main {
         }
         return false;
     }
-
-    public static void main(String[] args) {
-        // write your code here
-        Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 8, 11, 1, 10, 0, false);
-        List<Character> allMonsters = new ArrayList<>();
+    static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
         character = new Character("Giant rat", 65, 65, 4, 7, 10);
         allMonsters.add(character);
@@ -123,6 +118,15 @@ public class Main {
         allMonsters.add(character);
         character = new Character("Ghost", 130, 130, 10, 10, 35);
         allMonsters.add(character);
+        return allMonsters;
+    }
+
+    public static void main(String[] args) {
+        // write your code here
+        Scanner scanner = new Scanner(System.in);
+        Character hero = new Character("Garm", 100, 100, 8, 11, 1, 10, 0, false);
+        List<Character> allMonsters = new ArrayList<>();
+        allMonsters = fillingMonsterList(allMonsters);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
@@ -153,8 +157,6 @@ public class Main {
                     recreation(hero);
                 } else if (switcherMode == 3) {
                     System.out.println("Вы отступили. За сессию вы убили:");
-
-//                    System.out.println("Вы отступили. За сессию вы убили " + countKill + ".");
                     break;
                 }
             } else {
