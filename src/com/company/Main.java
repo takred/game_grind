@@ -52,11 +52,11 @@ public class Main {
         return hero;
     }
 
-    static Character recreation(Character hero){
-        if (hero.maxHp - hero.hp < 20) {
+    static Character rest(Character hero, int hour){
+        if (hero.maxHp - hero.hp < (20 * hour)) {
             hero.hp = hero.maxHp;
         } else {
-            hero.hp = hero.hp + 20;
+            hero.hp = hero.hp + (20 * hour);
         }
         System.out.println("Вы отдохнули.");
         return hero;
@@ -154,7 +154,9 @@ public class Main {
                     }
                     System.out.println();
                 } else if (switcherMode == 2) {
-                    recreation(hero);
+                    System.out.println("Введите сколько часов вы хотите отдохнуть: ");
+                    int hour = scanner.nextInt();
+                    rest(hero, hour);
                 } else if (switcherMode == 3) {
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
