@@ -106,25 +106,38 @@ public class Main {
     }
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
-        character = new Character("Giant rat", 65, 65, 4, 7, 10);
+        character = new Character("Гигантская крыса", 65, 65, 4, 7, 10);
         allMonsters.add(character);
-        character = new Character("Goblin", 90, 90, 6, 9, 15);
+        character = new Character("Гоблин", 90, 90, 6, 9, 15);
         allMonsters.add(character);
-        character = new Character("Familiar", 165, 165, 2, 6, 20);
+        character = new Character("Фамильяр", 165, 165, 2, 6, 20);
         allMonsters.add(character);
-        character = new Character("Wolf", 105, 105, 7, 11, 25);
+        character = new Character("Волк", 105, 105, 7, 11, 25);
         allMonsters.add(character);
-        character = new Character("Ghoul", 150, 150, 5, 8, 30);
+        character = new Character("Упырь", 150, 150, 5, 8, 30);
         allMonsters.add(character);
-        character = new Character("Ghost", 130, 130, 10, 10, 35);
+        character = new Character("Призрак", 130, 130, 10, 10, 35);
         allMonsters.add(character);
         return allMonsters;
+    }
+    static List<Item> fillingItemList(List<Item> allItems){
+        Item item;
+        item = new Item("Холщовый капюшон", 5, "Голова");
+        allItems.add(item);
+        item = new Item("Холщовая жилетка", 15, "Грудь");
+        allItems.add(item);
+        item = new Item("Холщовые штаны", 10, "Ноги");
+        allItems.add(item);
+        item = new Item("Ржавая кочерга", 2, 1, "Оружие");
+        allItems.add(item);
+        return allItems;
     }
 
     public static void main(String[] args) {
         // write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Garm", 100, 100, 8, 11, 1, 10, 0, false);
+        Character hero = new Character("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        List<Item> inventGarm = new ArrayList<>();
         List<Character> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
         Map<String, Integer> countKill = new HashMap<>();
@@ -132,7 +145,7 @@ public class Main {
             countKill.put(allMonsters.get(i).name, 0);
         }
         List<Item> allItems = new ArrayList<>();
-
+        allItems = fillingItemList(allItems);
         for (int i = 0; i < 1; )
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
@@ -155,8 +168,8 @@ public class Main {
                     System.out.println();
                 } else if (switcherMode == 2) {
                     System.out.println("Введите сколько часов вы хотите отдохнуть: ");
-                    int hour = scanner.nextInt();
-                    rest(hero, hour);
+                    int hours = scanner.nextInt();
+                    rest(hero, hours);
                 } else if (switcherMode == 3) {
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
