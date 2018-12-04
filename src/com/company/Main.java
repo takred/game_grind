@@ -52,11 +52,11 @@ public class Main {
         return hero;
     }
 
-    static Character rest(Character hero, int hour){
-        if (hero.maxHp - hero.hp < (20 * hour)) {
+    static Character rest(Character hero, int hours){
+        if (hero.maxHp - hero.hp < (20 * hours)) {
             hero.hp = hero.maxHp;
         } else {
-            hero.hp = hero.hp + (20 * hour);
+            hero.hp = hero.hp + (20 * hours);
         }
         System.out.println("Вы отдохнули.");
         return hero;
@@ -104,6 +104,28 @@ public class Main {
         }
         return false;
     }
+    static List<Item> collect (List<Item> inventHero, List<Item> allItems, List<Drop> allItemDrops){
+        int drop = ThreadLocalRandom.current().nextInt(1, 100);
+        if (drop <= 10){
+            int dropItem = ThreadLocalRandom.current().nextInt(allItemDrops.get(0).minBorder, allItemDrops.get(allItemDrops.size() - 1).maxBorder);
+            for (int i = 0; i < allItemDrops.size(); i++){
+                int minBorder = allItemDrops.get(i).minBorder;
+                int maxBorder = allItemDrops.get(i).maxBorder;
+                if(dropItem >= minBorder && dropItem <= maxBorder){
+                    String itemName = allItemDrops.get(i).name;
+                    for (int j = 0; j < allItems.size(); j++){
+                        if (itemName.equals(allItems.get(j).name)){
+                            inventHero.add(allItems.get(j));
+                            System.out.println("Вам выпал предмет \""+ itemName + "\".");
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return inventHero;
+    }
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
         character = new Character("Гигантская крыса", 65, 65, 4, 7, 10);
@@ -132,6 +154,18 @@ public class Main {
         allItems.add(item);
         return allItems;
     }
+    static List<Drop> fillingDropList (List<Drop> allItemDrops){
+        Drop drop;
+        drop = new Drop("Холщовый капюшон", 0, 9);
+        allItemDrops.add(drop);
+        drop = new Drop("Холщовая жилетка", allItemDrops.get(0).maxBorder + 1, allItemDrops.get(0).maxBorder + 8);
+        allItemDrops.add(drop);
+        drop = new Drop("Холщовые штаны", allItemDrops.get(1).maxBorder + 1, allItemDrops.get(1).maxBorder + 6);
+        allItemDrops.add(drop);
+        drop = new Drop("Ржавая кочерга", allItemDrops.get(2).maxBorder + 1, allItemDrops.get(2).maxBorder + 4);
+        allItemDrops.add(drop);
+        return allItemDrops;
+    }
 
     public static void main(String[] args) {
         // write your code here
@@ -140,6 +174,8 @@ public class Main {
         List<Item> inventGarm = new ArrayList<>();
         List<Character> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
+        List<Drop> allItemDrops = new ArrayList<>();
+        allItemDrops = fillingDropList(allItemDrops);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
@@ -149,7 +185,7 @@ public class Main {
         for (int i = 0; i < 1; )
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
-                System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья); 3 - отступить.");
+                System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - отступить.");
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {
                     System.out.println("Выберите противника :");
@@ -159,6 +195,7 @@ public class Main {
                     int switcherMonster = scanner.nextInt();
                     int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
+                        inventGarm = collect(inventGarm, allItems, allItemDrops);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {
