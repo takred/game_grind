@@ -104,41 +104,48 @@ public class Main {
         }
         return false;
     }
-    static List<Item> collect (List<Item> inventHero, List<Item> allItems, List<Drop> allItemDrops){
-        int drop = ThreadLocalRandom.current().nextInt(1, 100);
-        if (drop <= 10){
-            int dropItem = ThreadLocalRandom.current().nextInt(allItemDrops.get(0).minBorder, allItemDrops.get(allItemDrops.size() - 1).maxBorder);
-            for (int i = 0; i < allItemDrops.size(); i++){
-                int minBorder = allItemDrops.get(i).minBorder;
-                int maxBorder = allItemDrops.get(i).maxBorder;
-                if(dropItem >= minBorder && dropItem <= maxBorder){
-                    String itemName = allItemDrops.get(i).name;
-                    for (int j = 0; j < allItems.size(); j++){
-                        if (itemName.equals(allItems.get(j).name)){
-                            inventHero.add(allItems.get(j));
-                            System.out.println("Вам выпал предмет \""+ itemName + "\".");
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-        return inventHero;
-    }
+
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
-        character = new Character("Гигантская крыса", 65, 65, 4, 7, 10);
+        Drop drop;
+        List<Drop> itemDrop;
+        itemDrop = new ArrayList<>();
+        drop = new Drop("Холщовый капюшон", 0, 0);
+        itemDrop.add(drop);
+        character = new Character("Гигантская крыса", 65, 65, 4, 7, 10, itemDrop);
         allMonsters.add(character);
-        character = new Character("Гоблин", 90, 90, 6, 9, 15);
+        itemDrop = new ArrayList<>();
+        drop = new Drop("Холщовые штаны", 0, 7);
+        itemDrop.add(drop);
+        drop = new Drop("Ржавая кочерга", 8, 9);
+        itemDrop.add(drop);
+        character = new Character("Гоблин", 90, 90, 6, 9, 15, itemDrop);
         allMonsters.add(character);
-        character = new Character("Фамильяр", 165, 165, 2, 6, 20);
+        itemDrop = new ArrayList<>();
+        drop = new Drop("Холщовая жилетка", 0, 0);
+        itemDrop.add(drop);
+        character = new Character("Фамильяр", 165, 165, 2, 6, 20, itemDrop);
         allMonsters.add(character);
-        character = new Character("Волк", 105, 105, 7, 11, 25);
+        itemDrop = new ArrayList<>();
+        character = new Character("Волк", 105, 105, 7, 11, 25, itemDrop);
         allMonsters.add(character);
-        character = new Character("Упырь", 150, 150, 5, 8, 30);
+        itemDrop = new ArrayList<>();
+        drop = new Drop("Холщовые штаны", 0, 4);
+        itemDrop.add(drop);
+        drop = new Drop("Холщовая жилетка", 5, 9);
+        itemDrop.add(drop);
+        character = new Character("Упырь", 150, 150, 5, 8, 30,itemDrop);
         allMonsters.add(character);
-        character = new Character("Призрак", 130, 130, 10, 10, 35);
+        itemDrop = new ArrayList<>();
+        drop = new Drop("Холщовый капюшон",0, 1);
+        itemDrop.add(drop);
+        drop = new Drop("Холщовая жилетка", 2, 3);
+        itemDrop.add(drop);
+        drop = new Drop("Холщовые штаны", 4, 5);
+        itemDrop.add(drop);
+        drop = new Drop("Ржавая кочерга", 6, 9);
+        itemDrop.add(drop);
+        character = new Character("Призрак", 130, 130, 10, 10, 35, itemDrop);
         allMonsters.add(character);
         return allMonsters;
     }
@@ -154,18 +161,18 @@ public class Main {
         allItems.add(item);
         return allItems;
     }
-    static List<Drop> fillingDropList (List<Drop> allItemDrops){
-        Drop drop;
-        drop = new Drop("Холщовый капюшон", 0, 9);
-        allItemDrops.add(drop);
-        drop = new Drop("Холщовая жилетка", allItemDrops.get(0).maxBorder + 1, allItemDrops.get(0).maxBorder + 8);
-        allItemDrops.add(drop);
-        drop = new Drop("Холщовые штаны", allItemDrops.get(1).maxBorder + 1, allItemDrops.get(1).maxBorder + 6);
-        allItemDrops.add(drop);
-        drop = new Drop("Ржавая кочерга", allItemDrops.get(2).maxBorder + 1, allItemDrops.get(2).maxBorder + 4);
-        allItemDrops.add(drop);
-        return allItemDrops;
-    }
+//    static List<Drop> fillingDropList (List<Drop> allItemDrops){
+//        Drop drop;
+//        drop = new Drop("Холщовый капюшон", 0, 9);
+//        allItemDrops.add(drop);
+//        drop = new Drop("Холщовая жилетка", allItemDrops.get(0).maxBorder + 1, allItemDrops.get(0).maxBorder + 8);
+//        allItemDrops.add(drop);
+//        drop = new Drop("Холщовые штаны", allItemDrops.get(1).maxBorder + 1, allItemDrops.get(1).maxBorder + 6);
+//        allItemDrops.add(drop);
+//        drop = new Drop("Ржавая кочерга", allItemDrops.get(2).maxBorder + 1, allItemDrops.get(2).maxBorder + 4);
+//        allItemDrops.add(drop);
+//        return allItemDrops;
+//    }
 
     public static void main(String[] args) {
         // write your code here
@@ -175,7 +182,7 @@ public class Main {
         List<Character> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
         List<Drop> allItemDrops = new ArrayList<>();
-        allItemDrops = fillingDropList(allItemDrops);
+//        allItemDrops = fillingDropList(allItemDrops);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
@@ -195,7 +202,7 @@ public class Main {
                     int switcherMonster = scanner.nextInt();
                     int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
-                        inventGarm = collect(inventGarm, allItems, allItemDrops);
+                        inventGarm = Drop.collect(inventGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {
