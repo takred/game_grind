@@ -13,6 +13,7 @@ public class Drop {
         this.maxBorder = maxBorder;
     }
     static List<Item> collect (List<Item> inventHero, List<Item> allItems, List<Drop> monsterItemDrops){
+
         if (monsterItemDrops.size() > 0) {
             int drop = ThreadLocalRandom.current().nextInt(1, 100);
             if (drop <= 10) {
@@ -40,5 +41,14 @@ public class Drop {
             }
         }
         return inventHero;
+    }
+
+    @Override
+    public String toString() {
+        return "Drop{" +
+                "name='" + name + '\'' +
+                ", minBorder=" + minBorder +
+                ", maxBorder=" + maxBorder +
+                '}';
     }
 }

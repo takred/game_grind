@@ -3,6 +3,8 @@ package com.company;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.company.WeightDrop.weightToDrop;
+
 public class Main {
     static int fightResult(Character hero, Character monster) {
         for (int i = 0; i < 1000; i++) {
@@ -108,45 +110,48 @@ public class Main {
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
         Drop drop;
+
         List<Drop> itemDrop;
         itemDrop = new ArrayList<>();
-        drop = new Drop("Холщовый капюшон", 0, 0);
-        itemDrop.add(drop);
-        character = new Character("Гигантская крыса", 65, 65, 4, 7, 10, itemDrop);
-        allMonsters.add(character);
-        itemDrop = new ArrayList<>();
-        drop = new Drop("Холщовые штаны", 0, 7);
-        itemDrop.add(drop);
-        drop = new Drop("Ржавая кочерга", 8, 9);
-        itemDrop.add(drop);
-        character = new Character("Гоблин", 90, 90, 6, 9, 15, itemDrop);
-        allMonsters.add(character);
-        itemDrop = new ArrayList<>();
-        drop = new Drop("Холщовая жилетка", 0, 0);
-        itemDrop.add(drop);
-        character = new Character("Фамильяр", 165, 165, 2, 6, 20, itemDrop);
-        allMonsters.add(character);
-        itemDrop = new ArrayList<>();
-        character = new Character("Волк", 105, 105, 7, 11, 25, itemDrop);
-        allMonsters.add(character);
-        itemDrop = new ArrayList<>();
-        drop = new Drop("Холщовые штаны", 0, 4);
-        itemDrop.add(drop);
-        drop = new Drop("Холщовая жилетка", 5, 9);
-        itemDrop.add(drop);
-        character = new Character("Упырь", 150, 150, 5, 8, 30,itemDrop);
-        allMonsters.add(character);
-        itemDrop = new ArrayList<>();
-        drop = new Drop("Холщовый капюшон",0, 1);
-        itemDrop.add(drop);
-        drop = new Drop("Холщовая жилетка", 2, 3);
-        itemDrop.add(drop);
-        drop = new Drop("Холщовые штаны", 4, 5);
-        itemDrop.add(drop);
-        drop = new Drop("Ржавая кочерга", 6, 9);
-        itemDrop.add(drop);
-        character = new Character("Призрак", 130, 130, 10, 10, 35, itemDrop);
-        allMonsters.add(character);
+        {
+            List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
+            Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, weightToDrop(drops));
+            allMonsters.add(monster);
+        }
+        {
+            List<WeightDrop> drops = Arrays.asList(
+                    new WeightDrop("Холщовые штаны", 8),
+                    new WeightDrop("Ржавая кочерга", 2));
+            Character monster = new Character("Гоблин", 90, 90, 6, 9, 15, weightToDrop(drops));
+            allMonsters.add(monster);
+        }
+        {
+            List<WeightDrop> drops = Arrays.asList(
+                    new WeightDrop("Холщовая жилетка", 1));
+            Character monster = new Character("Фамильяр", 165, 165, 2, 6, 20, weightToDrop(drops));
+            allMonsters.add(monster);
+        }
+        {
+            List<WeightDrop> drops = new ArrayList<>();
+            Character monster = new Character("Волк", 105, 105, 7, 11, 25, weightToDrop(drops));
+            allMonsters.add(monster);
+        }
+        {
+            List<WeightDrop> drops = Arrays.asList(
+                    new WeightDrop("Холщовые штаны", 5),
+                    new WeightDrop("Холщовая жилетка", 5));
+            character = new Character("Упырь", 150, 150, 5, 8, 30, itemDrop);
+            allMonsters.add(character);
+        }
+        {
+            List<WeightDrop> drops = Arrays.asList(
+                    new WeightDrop("Холщовый капюшон", 2),
+                    new WeightDrop("Холщовая жилетка", 2),
+                    new WeightDrop("Холщовые штаны", 2),
+                    new WeightDrop("Ржавая кочерга", 4));
+            character = new Character("Призрак", 130, 130, 10, 10, 35, itemDrop);
+            allMonsters.add(character);
+        }
         return allMonsters;
     }
     static List<Item> fillingItemList(List<Item> allItems){
