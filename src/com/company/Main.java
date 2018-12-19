@@ -140,7 +140,7 @@ public class Main {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 5),
                     new WeightDrop("Холщовая жилетка", 5));
-            character = new Character("Упырь", 150, 150, 5, 8, 30, itemDrop);
+            character = new Character("Упырь", 150, 150, 5, 8, 30, weightToDrop(drops));
             allMonsters.add(character);
         }
         {
@@ -149,7 +149,7 @@ public class Main {
                     new WeightDrop("Холщовая жилетка", 2),
                     new WeightDrop("Холщовые штаны", 2),
                     new WeightDrop("Ржавая кочерга", 4));
-            character = new Character("Призрак", 130, 130, 10, 10, 35, itemDrop);
+            character = new Character("Призрак", 130, 130, 10, 10, 35, weightToDrop(drops));
             allMonsters.add(character);
         }
         return allMonsters;
