@@ -59,8 +59,7 @@ public class WeightDrop {
                 }
             }
         }
-    }
-        System.out.println("Ошибка! Этого не должно было случиться.");
+    };
         return inventHero;
 
     }

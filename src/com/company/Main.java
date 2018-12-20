@@ -115,32 +115,32 @@ public class Main {
         itemDrop = new ArrayList<>();
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
-            Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, weightToDrop(drops));
+            Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 8),
                     new WeightDrop("Ржавая кочерга", 2));
-            Character monster = new Character("Гоблин", 90, 90, 6, 9, 15, weightToDrop(drops));
+            Character monster = new Character("Гоблин", 90, 90, 6, 9, 15, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовая жилетка", 1));
-            Character monster = new Character("Фамильяр", 165, 165, 2, 6, 20, weightToDrop(drops));
+            Character monster = new Character("Фамильяр", 165, 165, 2, 6, 20, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = new ArrayList<>();
-            Character monster = new Character("Волк", 105, 105, 7, 11, 25, weightToDrop(drops));
+            Character monster = new Character("Волк", 105, 105, 7, 11, 25, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 5),
                     new WeightDrop("Холщовая жилетка", 5));
-            character = new Character("Упырь", 150, 150, 5, 8, 30, weightToDrop(drops));
+            character = new Character("Упырь", 150, 150, 5, 8, 30, drops);
             allMonsters.add(character);
         }
         {
@@ -149,7 +149,7 @@ public class Main {
                     new WeightDrop("Холщовая жилетка", 2),
                     new WeightDrop("Холщовые штаны", 2),
                     new WeightDrop("Ржавая кочерга", 4));
-            character = new Character("Призрак", 130, 130, 10, 10, 35, weightToDrop(drops));
+            character = new Character("Призрак", 130, 130, 10, 10, 35, drops);
             allMonsters.add(character);
         }
         return allMonsters;
@@ -207,7 +207,7 @@ public class Main {
                     int switcherMonster = scanner.nextInt();
                     int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
-                        inventGarm = Drop.collect(inventGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
+                        inventGarm = WeightDrop.collect(inventGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {

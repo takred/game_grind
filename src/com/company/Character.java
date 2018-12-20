@@ -12,7 +12,7 @@ public class Character {
     int nextLvl;
     int exp;
     boolean perkDoubleAttack;
-    List<Drop> itemDrop;
+    List<WeightDrop> itemDrop;
 
     public Character(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
         this.name = name;
@@ -25,7 +25,7 @@ public class Character {
         this.exp = exp;
         this.perkDoubleAttack = perkDoubleAttack;
     }
-    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int exp, List<Drop> itemDrop){
+    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int exp, List<WeightDrop> itemDrop){
         this.name = name;
         this.maxHp = maxHp;
         this.hp = hp;
