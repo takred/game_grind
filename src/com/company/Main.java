@@ -3,8 +3,6 @@ package com.company;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.company.WeightDrop.weightToDrop;
-
 public class Main {
     static int fightResult(Character hero, Character monster) {
         for (int i = 0; i < 1000; i++) {
@@ -109,10 +107,10 @@ public class Main {
 
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
-        Drop drop;
+//        Drop drop;
 
-        List<Drop> itemDrop;
-        itemDrop = new ArrayList<>();
+//        List<Drop> itemDrop;
+//        itemDrop = new ArrayList<>();
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
             Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, drops);
@@ -156,13 +154,13 @@ public class Main {
     }
     static List<Item> fillingItemList(List<Item> allItems){
         Item item;
-        item = new Item("Холщовый капюшон", 5, "Голова");
+        item = new Item("Холщовый капюшон", 5, Item.HEAD);
         allItems.add(item);
-        item = new Item("Холщовая жилетка", 15, "Грудь");
+        item = new Item("Холщовая жилетка", 15, Item.TORSO);
         allItems.add(item);
-        item = new Item("Холщовые штаны", 10, "Ноги");
+        item = new Item("Холщовые штаны", 10, Item.LEGS);
         allItems.add(item);
-        item = new Item("Ржавая кочерга", 2, 1, "Оружие");
+        item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
         allItems.add(item);
         return allItems;
     }
@@ -184,6 +182,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Character hero = new Character("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         List<Item> inventGarm = new ArrayList<>();
+        Inventory invGarm = new Inventory("Гарм");
         List<Character> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
         List<Drop> allItemDrops = new ArrayList<>();
@@ -207,7 +206,7 @@ public class Main {
                     int switcherMonster = scanner.nextInt();
                     int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
-                        inventGarm = WeightDrop.collect(inventGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
+                        WeightDrop.collect(invGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {
@@ -231,6 +230,9 @@ public class Main {
             if (stringIntegerEntry.getValue() > 0) {
                 System.out.println(stringIntegerEntry.getKey() + " - " + stringIntegerEntry.getValue());
             }
+        }
+        for (int i = 0; i < invGarm.items().size(); i++) {
+            System.out.println(invGarm.items().get(i).name);
         }
     }
 }

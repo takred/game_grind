@@ -27,7 +27,7 @@ public class WeightDrop {
         return result;
     }
 
-    static List<Item> collect (List<Item> inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops){
+    static void collect (Inventory inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops){
         if (monsterItemDrops.size() > 0) {
         int drop = ThreadLocalRandom.current().nextInt(1, 100);
         if (drop <= 10) {
@@ -52,15 +52,14 @@ public class WeightDrop {
                             if (itemName.equals(allItems.get(j).name)) {
                                 inventHero.add(allItems.get(j));
                                 System.out.println("Вам выпал предмет \"" + itemName + "\".");
-                                return inventHero;
+                                return;
                             }
                         }
                     }
                 }
             }
         }
-    };
-        return inventHero;
+    }
 
     }
 }
