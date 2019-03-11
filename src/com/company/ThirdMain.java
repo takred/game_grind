@@ -28,13 +28,13 @@ public class ThirdMain {
         category.add("Ноги");
         category.add("Оружие");
 
-        for (int i = 0; i < 1;) {
+        for (int i = 0; i < 1; ) {
             System.out.println("Выберите действие: 1 - Посмотреть инвентарь; 2 - Посмотреть надетые предметы; 0 - Выход.");
             int switcherMode = scanner.nextInt();
             if (switcherMode == 0) {
                 return;
             } else if (switcherMode == 1) {
-                for (int a = 0; a < 1;) {
+                for (int a = 0; a < 1; ) {
                     for (int j = 0; j < invGarm.items().size(); j++) {
                         System.out.println(j + 1 + " - " + invGarm.items().get(j).name);
                     }
@@ -46,17 +46,13 @@ public class ThirdMain {
                         break;
                     }
                 }
-            }else if (switcherMode == 2){
-                for (int j = 0; j < 1;){
+            } else if (switcherMode == 2) {
+                for (int j = 0; j < 1; ) {
                     for (int a = 0; a < equipInvGarm.items().size(); a++) {
-                        for (int b = 0; b < equipInvGarm.items().size(); b++) {
-                            if (equipInvGarm.items().get(b) != null && equipInvGarm.items().get(b).category == a) {
-                                System.out.println(a + 1 +") " + category.get(a) + " - " + equipInvGarm.items().get(b).name);
-                                break;
-                            }
-                            else if (b + 1 == equipInvGarm.items().size() && equipInvGarm.items().get(b).category != a){
-                                System.out.println(a + 1 +") " + category.get(a) + " - " + "Ничего не надето.");
-                            }
+                        if (equipInvGarm.items().get(a) != null) {
+                            System.out.println(a + 1 + ") " + category.get(a) + " - " + equipInvGarm.items().get(a).name);
+                        } else {
+                            System.out.println(a + 1 + ") " + category.get(a) + " - " + "Ничего не надето.");
                         }
                     }
                     System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
@@ -68,7 +64,7 @@ public class ThirdMain {
 //                                System.out.println();
 //                            }
 //                        }
-                    }else {
+                    } else {
                         break;
                     }
                 }
