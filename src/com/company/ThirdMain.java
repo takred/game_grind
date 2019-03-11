@@ -50,10 +50,11 @@ public class ThirdMain {
                 for (int j = 0; j < 1;){
                     for (int a = 0; a < equipInvGarm.items().size(); a++) {
                         for (int b = 0; b < equipInvGarm.items().size(); b++) {
-                            if (equipInvGarm.items().get(b).category == a) {
+                            if (equipInvGarm.items().get(b) != null && equipInvGarm.items().get(b).category == a) {
                                 System.out.println(a + 1 +") " + category.get(a) + " - " + equipInvGarm.items().get(b).name);
+                                break;
                             }
-                            else if (b + 1 == equipInvGarm.items().size()){
+                            else if (b + 1 == equipInvGarm.items().size() && equipInvGarm.items().get(b).category != a){
                                 System.out.println(a + 1 +") " + category.get(a) + " - " + "Ничего не надето.");
                             }
                         }
