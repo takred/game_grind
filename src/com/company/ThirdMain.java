@@ -41,7 +41,27 @@ public class ThirdMain {
                     System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
                     int switcherInv = scanner.nextInt();
                     if (switcherInv != 0) {
-                        System.out.println("Эта функция ещё не реализована.");
+//                        if(invGarm.items().get(switcherInv - 1).category != 3){
+                        if (invGarm.items().get(switcherInv - 1).category != 3) {
+                            System.out.println(invGarm.items().get(switcherInv - 1).name);
+                            System.out.println("Прибавка к здоровью - " + invGarm.items().get(switcherInv - 1).plusMaxHp);
+                        }else if(invGarm.items().get(switcherInv - 1).category == 3){
+                            System.out.println(invGarm.items().get(switcherInv - 1).name);
+                            System.out.println("Увеличение минимального порога урона - " + invGarm.items().get(switcherInv - 1).plusMinStr);
+                            System.out.println("Увеличение максимального порога урона - " + invGarm.items().get(switcherInv - 1).plusMaxStr);
+                        }
+                            System.out.println("Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
+                            int switcherItem = scanner.nextInt();
+                            if (switcherItem == 1){
+                                if(!equipInvGarm.isOn(invGarm.items().get(switcherInv).category)){
+                                    invGarm.add(equipInvGarm.takeOff(invGarm.items().get(switcherInv).category));
+                                    equipInvGarm.putOn(invGarm.items().get(switcherInv - 1));
+                                    invGarm.take(switcherInv - 1);
+                                }else {
+                                    equipInvGarm.putOn(invGarm.items().get(switcherInv - 1));
+                                    invGarm.take(switcherInv - 1);
+                                }
+                            }
                     } else {
                         break;
                     }
@@ -58,12 +78,20 @@ public class ThirdMain {
                     System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
                     int switcherInv = scanner.nextInt();
                     if (switcherInv != 0) {
-                        System.out.println("Эта функция ещё не реализована.");
-//                        for (int a = 0; a < equipInvGarm.items().size(); a++) {
-//                            if (equipInvGarm.items().get(a).category == switcherInv - 1) {
-//                                System.out.println();
-//                            }
-//                        }
+                        if (!equipInvGarm.isOn(switcherInv - 1) && equipInvGarm.items().get(switcherInv - 1).category != 3) {
+                            System.out.println(equipInvGarm.items().get(switcherInv - 1).name);
+                            System.out.println("Прибавка к здоровью - " + equipInvGarm.items().get(switcherInv - 1).plusMaxHp);
+                            System.out.println("Выберите действие: 0 - Вернуться в меню надетых предметов.");
+                            int illusionSwitcher = scanner.nextInt();
+                        }else if(!equipInvGarm.isOn(switcherInv - 1) && equipInvGarm.items().get(switcherInv - 1).category == 3){
+                            System.out.println(equipInvGarm.items().get(switcherInv - 1).name);
+                            System.out.println("Увеличение минимального порога урона - " + equipInvGarm.items().get(switcherInv - 1).plusMinStr);
+                            System.out.println("Увеличение максимального порога урона - " + equipInvGarm.items().get(switcherInv - 1).plusMaxStr);
+                            System.out.println("Выберите действие: 0 - Вернуться в меню надетых предметов.");
+                            int illusionSwitcher = scanner.nextInt();
+                        }else {
+                            System.out.println("В этом слоте нет надетых предметов. Выберите другой слот.");
+                        }
                     } else {
                         break;
                     }
