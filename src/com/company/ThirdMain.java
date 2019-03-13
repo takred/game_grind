@@ -23,16 +23,14 @@ public class ThirdMain {
             }
         }
     }
-    static void printInfoItem(Inventory inv, int index){
-
-        Item itemByIndex = inv.items().get(index - 1);
-        if (itemByIndex.category != 3) {
-            System.out.println(itemByIndex.name);
-            System.out.println("Прибавка к здоровью - " + itemByIndex.plusMaxHp);
+    static void printInfoItem(Item item){
+        if (item.category != 3) {
+            System.out.println(item.name);
+            System.out.println("Прибавка к здоровью - " + item.plusMaxHp);
         }else {
-            System.out.println(itemByIndex.name);
-            System.out.println("Увеличение минимального порога урона - " + itemByIndex.plusMinStr);
-            System.out.println("Увеличение максимального порога урона - " + itemByIndex.plusMaxStr);
+            System.out.println(item.name);
+            System.out.println("Увеличение минимального порога урона - " + item.plusMinStr);
+            System.out.println("Увеличение максимального порога урона - " + item.plusMaxStr);
         }
     }
     static void printInfoEquipItem(InventoryDoll inv, int index) {
@@ -89,7 +87,7 @@ public class ThirdMain {
                     int switcherInv = scanner.nextInt();
                     if (switcherInv != 0) {
                         Item itemByIndex = invGarm.items().get(switcherInv - 1);
-                        printInfoItem(invGarm, switcherInv);
+                        printInfoItem(invGarm.items().get(switcherInv));
                             System.out.println("Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
                             int switcherItem = scanner.nextInt();
                             if (switcherItem == 1){
