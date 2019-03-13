@@ -33,22 +33,14 @@ public class ThirdMain {
             System.out.println("Увеличение максимального порога урона - " + item.plusMaxStr);
         }
     }
-    static void printInfoEquipItem(InventoryDoll inv, int index) {
-        Scanner scanner = new Scanner(System.in);
-        Item itemByIndex = inv.items().get(index - 1);
-        if (!inv.isOn(index - 1) && itemByIndex.category != 3) {
+    static void printInfoEquipItem(Item itemByIndex) {
+        if (itemByIndex.category != 3) {
             System.out.println(itemByIndex.name);
             System.out.println("Прибавка к здоровью - " + itemByIndex.plusMaxHp);
-            System.out.println("Выберите действие: 0 - Вернуться в меню надетых предметов.");
-            int illusionSwitcher = scanner.nextInt();
-        } else if (!inv.isOn(index - 1) && itemByIndex.category == 3) {
+        } else {
             System.out.println(itemByIndex.name);
             System.out.println("Увеличение минимального порога урона - " + itemByIndex.plusMinStr);
             System.out.println("Увеличение максимального порога урона - " + itemByIndex.plusMaxStr);
-            System.out.println("Выберите действие: 0 - Вернуться в меню надетых предметов.");
-            int illusionSwitcher = scanner.nextInt();
-        }else {
-            System.out.println("В этом слоте нет надетых предметов. Выберите другой слот.");
         }
     }
 
@@ -110,7 +102,15 @@ public class ThirdMain {
                     System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
                     int switcherInv = scanner.nextInt();
                     if (switcherInv != 0) {
-                        printInfoEquipItem(equipInvGarm, switcherInv);
+                        final int cat = switcherInv - 1;
+                        final boolean on = !equipInvGarm.isOn(cat);
+                        if (on) {
+                            printInfoEquipItem(equipInvGarm.items().get(cat));
+                            System.out.println("Выберите действие: любая клавиша - Вернуться в меню надетых предметов.");
+                            scanner.nextInt();
+                        } else {
+                            System.out.println("В этом слоте нет надетых предметов. Выберите другой слот.");
+                        }
                     } else {
                         break;
                     }
