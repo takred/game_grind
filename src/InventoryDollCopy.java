@@ -30,15 +30,13 @@ public class InventoryDollCopy {
     public void putOn(Item item) {
         if (item.category == 0){
             head = item;
-        }
-        else if (item.category == 1){
+        } else if (item.category == 1){
             torso = item;
-            } else if (item.category == 1){
+            } else if (item.category == 2){
             legs = item;
-            } else if (item.category == 1){
+            } else if (item.category == 3){
             weapon = item;
             }
-//        equippedItem.set(item.category, item);
     }
 
     public Item takeOff(int category) {
