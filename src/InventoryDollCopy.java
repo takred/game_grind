@@ -25,33 +25,33 @@ public class InventoryDollCopy {
         equippedItem.add(torso);
         equippedItem.add(legs);
         equippedItem.add(weapon);
-        return Collections.unmodifiableList(equippedItem); }
+        return Collections.unmodifiableList(equippedItem);
+    }
 
     public void putOn(Item item) {
-        if (item.category == 0){
+        if (item.category == 0) {
             head = item;
-        } else if (item.category == 1){
+        } else if (item.category == 1) {
             torso = item;
-            } else if (item.category == 2){
+        } else if (item.category == 2) {
             legs = item;
-            } else if (item.category == 3){
+        } else if (item.category == 3) {
             weapon = item;
-            }
+        }
     }
 
     public Item takeOff(int category) {
         Item item = null;
-        if (category == 0){
+        if (category == 0) {
             item = head;
             head = null;
-        }
-        else if (category == 1){
+        } else if (category == 1) {
             item = torso;
             torso = null;
-        }else if (category == 2){
+        } else if (category == 2) {
             item = legs;
             legs = null;
-        }else if (category == 3){
+        } else if (category == 3) {
             item = weapon;
             weapon = null;
         }
@@ -60,13 +60,13 @@ public class InventoryDollCopy {
 
     public boolean isOn(int category) {
         Item item = null;
-        if (category == 0){
+        if (category == 0) {
             item = head;
-        }else if (category == 1){
+        } else if (category == 1) {
             item = torso;
-        }else if (category == 2){
+        } else if (category == 2) {
             item = legs;
-        }else if (category == 3){
+        } else if (category == 3) {
             item = weapon;
         }
         return item == null;
