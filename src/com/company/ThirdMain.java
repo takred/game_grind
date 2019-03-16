@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.InventoryDollCopy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,13 +10,13 @@ public class ThirdMain {
     static void printListInvent(Inventory inv, List<String> category){
         for (int a = 0; a < inv.items().size(); a++) {
             if (inv.items().get(a) != null) {
-                System.out.println(a + 1 + ") " + category.get(a) + " - " + inv.items().get(a).name);
+                System.out.println(a + 1 + ") " + category.get(inv.items().get(a).category) + " - " + inv.items().get(a).name);
             } else {
-                System.out.println(a + 1 + ") " + category.get(a) + " - " + "Ничего не надето.");
+                System.out.println(a + 1 + ") " + category.get(inv.items().get(a).category) + " - " + "Ничего не надето.");
             }
         }
     }
-    static void printListEquipInvent(InventoryDoll inv, List<String> category){
+    static void printListEquipInvent(InventoryDollCopy inv, List<String> category){
         for (int a = 0; a < inv.items().size(); a++) {
             if (inv.items().get(a) != null) {
                 System.out.println(a + 1 + ") " + category.get(a) + " - " + inv.items().get(a).name);
@@ -55,8 +57,7 @@ public class ThirdMain {
         invGarm.add(item);
         item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
         invGarm.add(item);
-
-        InventoryDoll equipInvGarm = new InventoryDoll();
+        InventoryDollCopy equipInvGarm = new InventoryDollCopy();
         equipInvGarm.putOn(item);
         item = new Item("Холщовые штаны", 10, Item.LEGS);
         equipInvGarm.putOn(item);
@@ -79,7 +80,7 @@ public class ThirdMain {
                     int switcherInv = scanner.nextInt();
                     if (switcherInv != 0) {
                         Item itemByIndex = invGarm.items().get(switcherInv - 1);
-                        printInfoItem(invGarm.items().get(switcherInv));
+                        printInfoItem(invGarm.items().get(switcherInv - 1));
                             System.out.println("Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
                             int switcherItem = scanner.nextInt();
                             if (switcherItem == 1){
