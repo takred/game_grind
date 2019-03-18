@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class InventoryDollCopy {
+public class InventoryDollCopy implements Doll {
     String nameHero;
     Item head;
     Item torso;
@@ -18,7 +18,7 @@ public class InventoryDollCopy {
         legs = null;
         weapon = null;
     }
-
+    @Override
     public List<Item> items() {
         List<Item> equippedItem = new ArrayList<>();
         equippedItem.add(head);
@@ -27,7 +27,7 @@ public class InventoryDollCopy {
         equippedItem.add(weapon);
         return Collections.unmodifiableList(equippedItem);
     }
-
+    @Override
     public void putOn(Item item) {
         if (item.category == 0) {
             head = item;
@@ -39,7 +39,7 @@ public class InventoryDollCopy {
             weapon = item;
         }
     }
-
+    @Override
     public Item takeOff(int category) {
         Item item = null;
         if (category == 0) {
@@ -57,7 +57,7 @@ public class InventoryDollCopy {
         }
         return item;
     }
-
+    @Override
     public boolean isOn(int category) {
         Item item = null;
         if (category == 0) {

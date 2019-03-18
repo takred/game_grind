@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.InventoryDollCopy;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class ThirdMain {
             }
         }
     }
-    static void printListEquipInvent(InventoryDollCopy inv, List<String> category){
+    static void printListEquipInvent(Doll inv, List<String> category){
         for (int a = 0; a < inv.items().size(); a++) {
             if (inv.items().get(a) != null) {
                 System.out.println(a + 1 + ") " + category.get(a) + " - " + inv.items().get(a).name);
@@ -46,7 +47,7 @@ public class ThirdMain {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
         Inventory invGarm = new Inventory("Гарм");
         Item item;
@@ -57,7 +58,7 @@ public class ThirdMain {
         invGarm.add(item);
         item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
         invGarm.add(item);
-        InventoryDollCopy equipInvGarm = new InventoryDollCopy();
+        Doll equipInvGarm = new FileDoll();
         equipInvGarm.putOn(item);
         item = new Item("Холщовые штаны", 10, Item.LEGS);
         equipInvGarm.putOn(item);
