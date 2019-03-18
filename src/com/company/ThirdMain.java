@@ -58,7 +58,7 @@ public class ThirdMain {
         invGarm.add(item);
         item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
         invGarm.add(item);
-        Doll equipInvGarm = new FileDoll();
+        Doll equipInvGarm = new ChangelogDoll();
         equipInvGarm.putOn(item);
         item = new Item("Холщовые штаны", 10, Item.LEGS);
         equipInvGarm.putOn(item);
