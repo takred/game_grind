@@ -27,19 +27,7 @@ public class ChangelogDoll implements Doll{
         equippedItem.set(item.category, item);
         OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
         PrintWriter writer = new PrintWriter(outputStream);
-        List<String> categoryList = new ArrayList<>();
-        categoryList.add("Голова");
-        categoryList.add("Туловище");
-        categoryList.add("Ноги");
-        categoryList.add("Оружие");
-        for (int a = 0; a < equippedItem.size(); a++) {
-            if (equippedItem.get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + equippedItem.get(a).name);
-            } else {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
-            }
-        }
-        writer.println();
+        writer.println("Экипирован предмет : " + item.name);
         writer.close();
     }
     @Override
@@ -48,19 +36,7 @@ public class ChangelogDoll implements Doll{
         equippedItem.set(category, null);
         OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
         PrintWriter writer = new PrintWriter(outputStream);
-        List<String> categoryList = new ArrayList<>();
-        categoryList.add("Голова");
-        categoryList.add("Туловище");
-        categoryList.add("Ноги");
-        categoryList.add("Оружие");
-        for (int a = 0; a < equippedItem.size(); a++) {
-            if (equippedItem.get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + equippedItem.get(a).name);
-            } else {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
-            }
-        }
-        writer.println();
+        writer.println("Снят предмет : " + item.name);
         writer.close();
         return item;
     }
