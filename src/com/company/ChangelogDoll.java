@@ -10,21 +10,18 @@ import java.util.List;
 
 public class ChangelogDoll implements Doll{
     String nameHero;
-    private List<Item> equippedItem = new ArrayList<>();
+    Doll doll;
 
-    public ChangelogDoll(){
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
+    public ChangelogDoll(Doll doll){
+        this.doll = doll;
     }
     @Override
     public List<Item> items(){
-        return Collections.unmodifiableList(equippedItem);
+        return doll.items();
     }
     @Override
     public void putOn(Item item) throws FileNotFoundException {
-        equippedItem.set(item.category, item);
+        doll.putOn(item);
         OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
         PrintWriter writer = new PrintWriter(outputStream);
         writer.println("Экипирован предмет : " + item.name);
@@ -32,16 +29,18 @@ public class ChangelogDoll implements Doll{
     }
     @Override
     public Item takeOff(int category) throws FileNotFoundException {
-        Item item = equippedItem.get(category);
-        equippedItem.set(category, null);
+        Item item = doll.takeOff(category);
         OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
         PrintWriter writer = new PrintWriter(outputStream);
+//        String string = null;
+//        System.out.println(string);
+//        System.out.println(item.name);
         writer.println("Снят предмет : " + item.name);
         writer.close();
         return item;
     }
     @Override
     public boolean isOn(int category) {
-        return equippedItem.get(category) == null;
+        return doll.isOn(category);
     }
 }
