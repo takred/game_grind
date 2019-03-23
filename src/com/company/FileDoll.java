@@ -13,21 +13,19 @@ import java.util.List;
 
 public class FileDoll implements Doll {
     String nameHero;
+    Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
-    public FileDoll(){
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
+    public FileDoll(Doll doll){
+        this.doll = doll;
     }
     @Override
     public List<Item> items(){
-        return Collections.unmodifiableList(equippedItem);
+        return doll.items();
     }
     @Override
     public void putOn(Item item) throws FileNotFoundException {
-        equippedItem.set(item.category, item);
+        doll.putOn(item);
         OutputStream outputStream = new FileOutputStream("FileDoll");
         PrintWriter writer = new PrintWriter(outputStream);
         List<String> categoryList = new ArrayList<>();
@@ -35,9 +33,9 @@ public class FileDoll implements Doll {
         categoryList.add("Туловище");
         categoryList.add("Ноги");
         categoryList.add("Оружие");
-        for (int a = 0; a < equippedItem.size(); a++) {
-            if (equippedItem.get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + equippedItem.get(a).name);
+        for (int a = 0; a < doll.items().size(); a++) {
+            if (doll.items().get(a) != null) {
+                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + doll.items().get(a).name);
             } else {
                 writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
             }
@@ -46,8 +44,7 @@ public class FileDoll implements Doll {
     }
     @Override
     public Item takeOff(int category) throws FileNotFoundException {
-        Item item = equippedItem.get(category);
-        equippedItem.set(category, null);
+        Item item = doll.takeOff(category);
         OutputStream outputStream = new FileOutputStream("FileDoll");
         PrintWriter writer = new PrintWriter(outputStream);
         List<String> categoryList = new ArrayList<>();
@@ -55,9 +52,9 @@ public class FileDoll implements Doll {
         categoryList.add("Туловище");
         categoryList.add("Ноги");
         categoryList.add("Оружие");
-        for (int a = 0; a < equippedItem.size(); a++) {
-            if (equippedItem.get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + equippedItem.get(a).name);
+        for (int a = 0; a < doll.items().size(); a++) {
+            if (doll.items().get(a) != null) {
+                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + doll.items().get(a).name);
             } else {
                 writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
             }
@@ -67,6 +64,6 @@ public class FileDoll implements Doll {
     }
     @Override
     public boolean isOn(int category) {
-        return equippedItem.get(category) == null;
+        return doll.isOn(category);
     }
 }

@@ -3,6 +3,7 @@ package com.company;
 import com.company.InventoryDollCopy;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,7 +48,7 @@ public class ThirdMain {
         }
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Inventory invGarm = new Inventory("Гарм");
         Item item;
@@ -58,11 +59,12 @@ public class ThirdMain {
         invGarm.add(item);
         item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
         invGarm.add(item);
-        Doll doll = new StringDoll("FileDoll", invGarm);
-        Doll equipInvGarm = new ChangelogDoll(doll);
-        equipInvGarm.putOn(item);
         item = new Item("Холщовые штаны", 10, Item.LEGS);
-        equipInvGarm.putOn(item);
+        invGarm.add(item);
+        item = new Item("Рубаха дровосека", 5, Item.TORSO);
+        invGarm.add(item);
+        Doll doll = new StringDoll("FileDoll", invGarm);
+        Doll equipInvGarm = new FileDoll(doll);
 
         List<String> category = new ArrayList<>();
         category.add("Голова");

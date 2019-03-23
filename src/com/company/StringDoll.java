@@ -27,7 +27,7 @@ public class StringDoll implements Doll{
         }
     }
 
-    public StringDoll(String fileName, Inventory inv ) throws FileNotFoundException {
+    public StringDoll(String fileName, Inventory inv ) throws IOException {
         equippedItem.add(null);
         equippedItem.add(null);
         equippedItem.add(null);
@@ -37,6 +37,7 @@ public class StringDoll implements Doll{
         Reader reader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(reader);
         List<String> strings = bufferedReader.lines().collect(Collectors.toList());
+        inputStream.close();
 
         for (int j = 0; j < strings.size(); j++) {
             for (int i = 0; i < inv.items().size(); i++) {
