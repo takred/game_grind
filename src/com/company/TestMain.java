@@ -6,12 +6,9 @@ import java.util.List;
 
 public class TestMain {
     public static void main(String[] args) throws IOException {
-//        String string = "0,\"Холщовый капюшон\",5";
-//        Integer integer = Integer.valueOf(string.substring(0, 1));
-//        System.out.println(integer);
         List<Item> itemList = new ArrayList<>();
 
-        AllItems allItems = new AllItems("AllItems.txt", itemList);
+        AllItems allItems = new AllItems("AllItems.txt");
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
@@ -20,10 +17,10 @@ public class TestMain {
         category.add("Оружие");
 
         for (int i = 0; i < allItems.itemsList().size(); i++) {
-            if (itemList.get(i) != null) {
-                System.out.println(i + 1 + ") " + category.get(itemList.get(i).category) + " - " + itemList.get(i).name);
+            if (allItems.itemsList().get(i) != null) {
+                System.out.println(i + 1 + ") " + category.get(allItems.itemsList().get(i).category) + " - " + allItems.itemsList().get(i).name);
             } else {
-                System.out.println(i + 1 + ") " + category.get(itemList.get(i).category) + " - " + "Ничего не надето.");
+                System.out.println(i + 1 + ") " + category.get(allItems.itemsList().get(i).category) + " - " + "Ничего не надето.");
             }
         }
     }
