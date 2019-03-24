@@ -63,7 +63,8 @@ public class ThirdMain {
         invGarm.add(item);
         item = new Item("Рубаха дровосека", 5, Item.TORSO);
         invGarm.add(item);
-        Doll doll = new StringDoll("FileDoll", invGarm);
+        Doll orig = new InventoryDollCopy();
+        Doll doll = new StringDoll("FileDoll", invGarm, orig);
         Doll equipInvGarm = new FileDoll(doll);
 
         List<String> category = new ArrayList<>();

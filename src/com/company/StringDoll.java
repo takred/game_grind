@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class StringDoll implements Doll{
     String nameHero;
+    Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
     public StringDoll (List<String> listItem, Inventory inv){
@@ -27,11 +28,8 @@ public class StringDoll implements Doll{
         }
     }
 
-    public StringDoll(String fileName, Inventory inv ) throws IOException {
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
+    public StringDoll(String fileName, Inventory inv, Doll doll ) throws IOException {
+        this.doll = doll;
 
         InputStream inputStream = new FileInputStream(fileName);
         Reader reader = new InputStreamReader(inputStream);
@@ -39,11 +37,20 @@ public class StringDoll implements Doll{
         List<String> strings = bufferedReader.lines().collect(Collectors.toList());
         inputStream.close();
 
+//        for (int j = 0; j < strings.size(); j++) {
+//            for (int i = 0; i < inv.items().size(); i++) {
+//                boolean cont = strings.get(j).contains(inv.items().get(i).name);
+//                if (cont) {
+//                    equippedItem.set(j, inv.items().get(i));
+//                    break;
+//                }
+//            }
+//        }
         for (int j = 0; j < strings.size(); j++) {
             for (int i = 0; i < inv.items().size(); i++) {
                 boolean cont = strings.get(j).contains(inv.items().get(i).name);
                 if (cont) {
-                    equippedItem.set(j, inv.items().get(i));
+                    doll.putOn(inv.items().get(i));
                     break;
                 }
             }
@@ -52,21 +59,19 @@ public class StringDoll implements Doll{
 
     @Override
     public List<Item> items(){
-        return Collections.unmodifiableList(equippedItem);
+        return doll.items();
     }
     @Override
-    public void putOn(Item item){
-        equippedItem.set(item.category, item);
+    public void putOn(Item item) throws FileNotFoundException {
+        doll.putOn(item);
     }
     @Override
-    public Item takeOff(int category) {
-        Item item = equippedItem.get(category);
-        equippedItem.set(category, null);
-        return item;
+    public Item takeOff(int category) throws FileNotFoundException {
+        return doll.takeOff(category);
     }
     @Override
     public boolean isOn(int category) {
-        return equippedItem.get(category) == null;
+        return doll.isOn(category);
     }
 
 }
