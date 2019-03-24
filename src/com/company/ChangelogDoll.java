@@ -32,9 +32,6 @@ public class ChangelogDoll implements Doll{
         Item item = doll.takeOff(category);
         OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
         PrintWriter writer = new PrintWriter(outputStream);
-//        String string = null;
-//        System.out.println(string);
-//        System.out.println(item.name);
         writer.println("Снят предмет : " + item.name);
         writer.close();
         return item;

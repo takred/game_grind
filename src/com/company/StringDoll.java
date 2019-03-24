@@ -11,17 +11,14 @@ public class StringDoll implements Doll{
     Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
-    public StringDoll (List<String> listItem, Inventory inv){
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
-        equippedItem.add(null);
+    public StringDoll (List<String> listItem, Inventory inv, Doll doll) throws FileNotFoundException {
+        this.doll = doll;
 
         for (int j = 0; j < listItem.size(); j++) {
             for (int i = 0; i < inv.items().size(); i++) {
                 boolean cont = listItem.get(j).contains(inv.items().get(i).name);
                 if (cont) {
-                    equippedItem.set(j, inv.items().get(i));
+                    doll.putOn(inv.items().get(i));
                     break;
                 }
             }
@@ -37,15 +34,6 @@ public class StringDoll implements Doll{
         List<String> strings = bufferedReader.lines().collect(Collectors.toList());
         inputStream.close();
 
-//        for (int j = 0; j < strings.size(); j++) {
-//            for (int i = 0; i < inv.items().size(); i++) {
-//                boolean cont = strings.get(j).contains(inv.items().get(i).name);
-//                if (cont) {
-//                    equippedItem.set(j, inv.items().get(i));
-//                    break;
-//                }
-//            }
-//        }
         for (int j = 0; j < strings.size(); j++) {
             for (int i = 0; i < inv.items().size(); i++) {
                 boolean cont = strings.get(j).contains(inv.items().get(i).name);
