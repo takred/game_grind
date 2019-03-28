@@ -51,18 +51,22 @@ public class ThirdMain {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Inventory invGarm = new Inventory("Гарм");
-        Item item;
-        item = new Item("Холщовый капюшон", 5, Item.HEAD);
-        invGarm.add(item);
-        item = new Item("Холщовая жилетка", 15, Item.TORSO);
-        invGarm.add(item);
-        invGarm.add(item);
-        item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
-        invGarm.add(item);
-        item = new Item("Холщовые штаны", 10, Item.LEGS);
-        invGarm.add(item);
-        item = new Item("Рубаха дровосека", 5, Item.TORSO);
-        invGarm.add(item);
+//        Item item;
+//        item = new Item("Холщовый капюшон", 5, Item.HEAD);
+//        invGarm.add(item);
+//        item = new Item("Холщовая жилетка", 15, Item.TORSO);
+//        invGarm.add(item);
+//        invGarm.add(item);
+//        item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
+//        invGarm.add(item);
+//        item = new Item("Холщовые штаны", 10, Item.LEGS);
+//        invGarm.add(item);
+//        item = new Item("Рубаха дровосека", 5, Item.TORSO);
+//        invGarm.add(item);
+        AllItems allItems = new AllItems("AllItems.txt");
+        for (int i = 0; i < allItems.itemsList().size(); i++){
+            invGarm.add(allItems.itemsList().get(i));
+        }
         Doll orig = new InventoryDollCopy();
         Doll doll = new StringDoll("FileDoll", invGarm, orig);
         Doll equipInvGarm = new FileDoll(doll);
