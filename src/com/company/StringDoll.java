@@ -31,7 +31,6 @@ public class StringDoll implements Doll{
         File file = new File(fileName);
         if (!file.exists()) {
             System.out.println("no");
-            doll = new InventoryDollCopy();
         }else {
             InputStream inputStream = new FileInputStream(file);
             Reader reader = new InputStreamReader(inputStream);
