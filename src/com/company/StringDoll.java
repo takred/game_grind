@@ -28,18 +28,24 @@ public class StringDoll implements Doll{
     public StringDoll(String fileName, Inventory inv, Doll doll ) throws IOException {
         this.doll = doll;
 
-        InputStream inputStream = new FileInputStream(fileName);
-        Reader reader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        List<String> strings = bufferedReader.lines().collect(Collectors.toList());
-        inputStream.close();
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("no");
+            doll = new InventoryDollCopy();
+        }else {
+            InputStream inputStream = new FileInputStream(file);
+            Reader reader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            List<String> strings = bufferedReader.lines().collect(Collectors.toList());
+            inputStream.close();
 
-        for (int j = 0; j < strings.size(); j++) {
-            for (int i = 0; i < inv.items().size(); i++) {
-                boolean cont = strings.get(j).contains(inv.items().get(i).name);
-                if (cont) {
-                    doll.putOn(inv.items().get(i));
-                    break;
+            for (int j = 0; j < strings.size(); j++) {
+                for (int i = 0; i < inv.items().size(); i++) {
+                    boolean cont = strings.get(j).contains(inv.items().get(i).name);
+                    if (cont) {
+                        doll.putOn(inv.items().get(i));
+                        break;
+                    }
                 }
             }
         }
