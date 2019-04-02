@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -107,10 +108,7 @@ public class Main {
 
     static List<Character> fillingMonsterList(List<Character> allMonsters){
         Character character;
-//        Drop drop;
 
-//        List<Drop> itemDrop;
-//        itemDrop = new ArrayList<>();
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
             Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, drops);
@@ -177,7 +175,7 @@ public class Main {
 //        return allItemDrops;
 //    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // write your code here
         Scanner scanner = new Scanner(System.in);
         Character hero = new Character("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
@@ -191,8 +189,7 @@ public class Main {
         for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
         }
-        List<Item> allItems = new ArrayList<>();
-        allItems = fillingItemList(allItems);
+        AllItems allItems = new AllItems("AllItems.txt");
         for (int i = 0; i < 1; )
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
@@ -206,7 +203,7 @@ public class Main {
                     int switcherMonster = scanner.nextInt();
                     int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
-                        WeightDrop.collect(invGarm, allItems, allMonsters.get(switcherMonster - 1).itemDrop);
+                        WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {
