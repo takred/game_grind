@@ -162,18 +162,50 @@ public class Main {
         allItems.add(item);
         return allItems;
     }
-//    static List<Drop> fillingDropList (List<Drop> allItemDrops){
-//        Drop drop;
-//        drop = new Drop("Холщовый капюшон", 0, 9);
-//        allItemDrops.add(drop);
-//        drop = new Drop("Холщовая жилетка", allItemDrops.get(0).maxBorder + 1, allItemDrops.get(0).maxBorder + 8);
-//        allItemDrops.add(drop);
-//        drop = new Drop("Холщовые штаны", allItemDrops.get(1).maxBorder + 1, allItemDrops.get(1).maxBorder + 6);
-//        allItemDrops.add(drop);
-//        drop = new Drop("Ржавая кочерга", allItemDrops.get(2).maxBorder + 1, allItemDrops.get(2).maxBorder + 4);
-//        allItemDrops.add(drop);
-//        return allItemDrops;
-//    }
+    static void printListInvent(Inventory inv, List<String> category){
+        if (inv.items().size() > 0) {
+            System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
+            for (int a = 0; a < inv.items().size(); a++) {
+                if (inv.items().get(a) != null) {
+                    System.out.println(a + 1 + ") " + category.get(inv.items().get(a).category) + " - " + inv.items().get(a).name);
+                } else {
+                    System.out.println(a + 1 + ") " + category.get(inv.items().get(a).category) + " - " + "Ничего не надето.");
+                }
+            }
+        } else {
+            System.out.println("Нажмите 0, чтобы вернуться назад.");
+            System.out.println("В сумке пусто.");
+        }
+    }
+    static void printListEquipInvent(Doll inv, List<String> category){
+        for (int a = 0; a < inv.items().size(); a++) {
+            if (inv.items().get(a) != null) {
+                System.out.println(a + 1 + ") " + category.get(a) + " - " + inv.items().get(a).name);
+            } else {
+                System.out.println(a + 1 + ") " + category.get(a) + " - " + "Ничего не надето.");
+            }
+        }
+    }
+    static void printInfoItem(Item item){
+        if (item.category != 3) {
+            System.out.println(item.name);
+            System.out.println("Прибавка к здоровью - " + item.plusMaxHp);
+        }else {
+            System.out.println(item.name);
+            System.out.println("Увеличение минимального порога урона - " + item.plusMinStr);
+            System.out.println("Увеличение максимального порога урона - " + item.plusMaxStr);
+        }
+    }
+    static void printInfoEquipItem(Item itemByIndex) {
+        if (itemByIndex.category != 3) {
+            System.out.println(itemByIndex.name);
+            System.out.println("Прибавка к здоровью - " + itemByIndex.plusMaxHp);
+        } else {
+            System.out.println(itemByIndex.name);
+            System.out.println("Увеличение минимального порога урона - " + itemByIndex.plusMinStr);
+            System.out.println("Увеличение максимального порога урона - " + itemByIndex.plusMaxStr);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         // write your code here
@@ -181,19 +213,33 @@ public class Main {
         Character hero = new Character("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         List<Item> inventGarm = new ArrayList<>();
         Inventory invGarm = new Inventory("Гарм");
+
+        Doll originalDoll = new InventoryDollCopy();
+        Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
+        Doll equipInvGarm = new FileDoll(doll);
+
         List<Character> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
+
         List<Drop> allItemDrops = new ArrayList<>();
+
+        List<String> category = new ArrayList<>();
+        category.add("Голова");
+        category.add("Туловище");
+        category.add("Ноги");
+        category.add("Оружие");
+
 //        allItemDrops = fillingDropList(allItemDrops);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
             countKill.put(allMonsters.get(i).name, 0);
         }
         AllItems allItems = new AllItems("AllItems.txt");
+
         for (int i = 0; i < 1; )
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
-                System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - отступить.");
+                System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - открыть меню инвентаря; 4 - отступить.");
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {
                     System.out.println("Выберите противника :");
@@ -215,7 +261,59 @@ public class Main {
                     System.out.println("Введите сколько часов вы хотите отдохнуть: ");
                     int hours = scanner.nextInt();
                     rest(hero, hours);
-                } else if (switcherMode == 3) {
+                } else if (switcherMode == 3){
+                    while(true) {
+                        System.out.println("Выберите действие: 1 - Посмотреть инвентарь; 2 - Посмотреть надетые предметы; 0 - Выход.");
+                        int switcherModeInv = scanner.nextInt();
+                        if (switcherModeInv == 0) {
+                            break;
+                        } else if (switcherModeInv == 1) {
+                            while(true) {
+                                printListInvent(invGarm, category);
+//                                System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
+                                int switcherInv = scanner.nextInt();
+                                if (switcherInv != 0) {
+                                    Item itemByIndex = invGarm.items().get(switcherInv - 1);
+                                    printInfoItem(invGarm.items().get(switcherInv - 1));
+                                    System.out.println("Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
+                                    int switcherItem = scanner.nextInt();
+                                    if (switcherItem == 1){
+                                        if(!equipInvGarm.isOn(itemByIndex.category)){
+                                            invGarm.add(equipInvGarm.takeOff(itemByIndex.category));
+                                            equipInvGarm.putOn(itemByIndex);
+                                            invGarm.take(switcherInv - 1);
+                                        }else {
+                                            equipInvGarm.putOn(itemByIndex);
+                                            invGarm.take(switcherInv - 1);
+                                        }
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        } else if (switcherModeInv == 2) {
+                            while(true) {
+                                printListEquipInvent(equipInvGarm, category);
+                                System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
+                                int switcherInv = scanner.nextInt();
+                                if (switcherInv != 0) {
+                                    final int cat = switcherInv - 1;
+                                    final boolean on = !equipInvGarm.isOn(cat);
+                                    if (on) {
+                                        printInfoEquipItem(equipInvGarm.items().get(cat));
+                                        System.out.println("Выберите действие: любая клавиша - Вернуться в меню надетых предметов.");
+                                        scanner.nextInt();
+                                    } else {
+                                        System.out.println("В этом слоте нет надетых предметов. Выберите другой слот.");
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (switcherMode == 4) {
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
                 }
