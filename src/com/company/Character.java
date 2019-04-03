@@ -39,7 +39,7 @@ public class Character {
 
     public Character(){}
 
-    public int currentDamage(int minStr, int maxStr) {
+    public int currentDamage() {
         if (minStr != maxStr) {
             return ThreadLocalRandom.current().nextInt(minStr, maxStr);
         }

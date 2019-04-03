@@ -64,7 +64,7 @@ public class Main {
     }
 
     static boolean heroAttack(Character hero, Character monster) {
-        int currentDamageHero = hero.currentDamage(hero.minStr, hero.maxStr);
+        int currentDamageHero = hero.currentDamage();
         if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
@@ -85,7 +85,7 @@ public class Main {
         return false;
     }
     static boolean monsterAttack(Character hero, Character monster){
-        int currentDamageMonster = monster.currentDamage(monster.minStr, monster.maxStr);
+        int currentDamageMonster = monster.currentDamage();
         if (hero.hp - currentDamageMonster > 0) {
             hero.hp = hero.hp - currentDamageMonster;
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
