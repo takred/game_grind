@@ -63,15 +63,8 @@ public class Main {
         return hero;
     }
 
-    static int currentDamage(int minStr, int maxStr) {
-        if (minStr != maxStr) {
-            return ThreadLocalRandom.current().nextInt(minStr, maxStr);
-        }
-        return minStr;
-    }
-
     static boolean heroAttack(Character hero, Character monster) {
-        int currentDamageHero = currentDamage(hero.minStr, hero.maxStr);
+        int currentDamageHero = hero.currentDamage(hero.minStr, hero.maxStr);
         if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
@@ -92,7 +85,7 @@ public class Main {
         return false;
     }
     static boolean monsterAttack(Character hero, Character monster){
-        int currentDamageMonster = currentDamage(monster.minStr, monster.maxStr);
+        int currentDamageMonster = monster.currentDamage(monster.minStr, monster.maxStr);
         if (hero.hp - currentDamageMonster > 0) {
             hero.hp = hero.hp - currentDamageMonster;
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
