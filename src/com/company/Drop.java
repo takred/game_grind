@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.items.Item;
+
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 

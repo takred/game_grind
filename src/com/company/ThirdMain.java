@@ -4,6 +4,8 @@ import com.company.doll.Doll;
 import com.company.doll.FileDoll;
 import com.company.doll.InventoryDollCopy;
 import com.company.doll.StringDoll;
+import com.company.items.AllItems;
+import com.company.items.Item;
 
 import java.io.IOException;
 import java.util.ArrayList;

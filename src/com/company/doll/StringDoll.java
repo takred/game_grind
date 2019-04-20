@@ -1,7 +1,7 @@
 package com.company.doll;
 
 import com.company.Inventory;
-import com.company.Item;
+import com.company.items.Item;
 
 import java.io.*;
 import java.util.ArrayList;

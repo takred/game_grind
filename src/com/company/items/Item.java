@@ -1,4 +1,4 @@
-package com.company;
+package com.company.items;
 
 public class Item {
 //
@@ -8,9 +8,9 @@ public class Item {
     public static final int WEAPON = 3;
 
     public String name;
-    int plusMinStr;
-    int plusMaxStr;
-    int plusMaxHp;
+    public int plusMinStr;
+    public int plusMaxStr;
+    public int plusMaxHp;
     public int category;
     public Item(String name, int plusMinStr, int plusMaxStr, int category){
         this.name = name;

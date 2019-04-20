@@ -1,6 +1,6 @@
 package com.company.doll;
 
-import com.company.Item;
+import com.company.items.Item;
 
 import java.io.FileNotFoundException;
 import java.util.List;
