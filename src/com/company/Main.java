@@ -11,15 +11,15 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    static int fightResult(GrindCharacter hero, GrindCharacter monster) {
+    static int fightResult(GrindCharacter hero, EquipedCharacter equipedHero, GrindCharacter monster) {
         for (int i = 0; i < 1000; i++) {
-            boolean resultHeroAttack = heroAttack(hero, monster);
+            boolean resultHeroAttack = heroAttack(hero,equipedHero, monster);
             if (resultHeroAttack) {
                 return 0;
             }
             if(hero.perkDoubleAttack){
                 System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
-                resultHeroAttack = heroAttack(hero, monster);
+                resultHeroAttack = heroAttack(hero,equipedHero, monster);
                 if (resultHeroAttack){
                     return 0;
                 }
@@ -69,8 +69,8 @@ public class Main {
         return hero;
     }
 
-    static boolean heroAttack(GrindCharacter hero, GrindCharacter monster) {
-        int currentDamageHero = hero.currentDamage();
+    static boolean heroAttack(GrindCharacter hero, EquipedCharacter equipedHero, GrindCharacter monster) {
+        int currentDamageHero = equipedHero.currentDamage();
         if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
@@ -198,12 +198,14 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        GrindCharacter hero = new GrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        GrindCharacter heroGarm = new GrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         Inventory invGarm = new Inventory("Гарм");
 
         Doll originalDoll = new InventoryDollCopy();
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
         Doll equipInvGarm = new FileDoll(doll);
+
+        EquipedCharacter equipedGarm = new EquipedCharacter(equipInvGarm, heroGarm);
 
         List<GrindCharacter> allMonsters = monsterList();
 
@@ -221,8 +223,8 @@ public class Main {
         AllItems allItems = new AllItems("AllItems.txt");
 
         while (true) {
-            if (hero.hp > 0) {
-                System.out.println("у вас " + hero.hp + " единиц здоровья.");
+            if (heroGarm.hp > 0) {
+                System.out.println("у вас " + heroGarm.hp + " единиц здоровья.");
                 System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - открыть меню инвентаря; 4 - отступить.");
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {
@@ -231,7 +233,7 @@ public class Main {
                         System.out.println(j + 1 + " - " + allMonsters.get(j).name);
                     }
                     int switcherMonster = scanner.nextInt();
-                    int result = fightResult(hero, allMonsters.get(switcherMonster - 1));
+                    int result = fightResult(heroGarm,equipedGarm, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
                         WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
@@ -244,7 +246,7 @@ public class Main {
                 } else if (switcherMode == 2) {
                     System.out.println("Введите сколько часов вы хотите отдохнуть: ");
                     int hours = scanner.nextInt();
-                    rest(hero, hours);
+                    rest(heroGarm, hours);
                 } else if (switcherMode == 3){
                     while(true) {
                         System.out.println("Выберите действие: 1 - Посмотреть инвентарь; 2 - Посмотреть надетые предметы; 0 - Выход.");
