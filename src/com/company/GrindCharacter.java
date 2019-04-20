@@ -12,7 +12,7 @@ public class GrindCharacter {
     int lvl;
     int nextLvl;
     int exp;
-    boolean perkDoubleAttack;
+    private boolean perkDoubleAttack;
     List<WeightDrop> itemDrop;
 
     public GrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
@@ -44,5 +44,13 @@ public class GrindCharacter {
             return ThreadLocalRandom.current().nextInt(minStr, maxStr);
         }
         return minStr;
+    }
+
+    public boolean perkDoubleAttack() {
+        return perkDoubleAttack;
+    }
+
+    public void enableDoubleAttack() {
+        perkDoubleAttack = true;
     }
 }

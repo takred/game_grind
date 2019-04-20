@@ -17,7 +17,7 @@ public class Main {
             if (resultHeroAttack) {
                 return 0;
             }
-            if(hero.perkDoubleAttack){
+            if(hero.perkDoubleAttack()){
                 System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
                 resultHeroAttack = heroAttack(hero,equipedHero, monster);
                 if (resultHeroAttack){
@@ -48,7 +48,7 @@ public class Main {
             }
         } else if (hero.lvl == 32) {
             System.out.println("Вы получили новую особенность - \"Двойной удар\"!");
-            hero.perkDoubleAttack = true;
+            hero.enableDoubleAttack();
         }
         hero.maxHp = hero.maxHp + 10;
         hero.hp = hero.maxHp;
