@@ -1,11 +1,15 @@
 package com.company;
 
+import com.company.doll.Doll;
+import com.company.doll.FileDoll;
+import com.company.doll.InventoryDollCopy;
+import com.company.doll.StringDoll;
+
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    static int fightResult(Character hero, Character monster) {
+    static int fightResult(GrindCharacter hero, GrindCharacter monster) {
         for (int i = 0; i < 1000; i++) {
             boolean resultHeroAttack = heroAttack(hero, monster);
             if (resultHeroAttack) {
@@ -26,7 +30,7 @@ public class Main {
         return 2;
     }
 
-    static Character lvlUp(Character hero) {
+    static GrindCharacter lvlUp(GrindCharacter hero) {
         hero.lvl = hero.lvl + 1;
         if (hero.lvl % 4 == 0 && hero.lvl != 32) {
             System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
@@ -53,7 +57,7 @@ public class Main {
         return hero;
     }
 
-    static Character rest(Character hero, int hours){
+    static GrindCharacter rest(GrindCharacter hero, int hours){
         if (hero.maxHp - hero.hp < (20 * hours)) {
             hero.hp = hero.maxHp;
         } else {
@@ -63,7 +67,7 @@ public class Main {
         return hero;
     }
 
-    static boolean heroAttack(Character hero, Character monster) {
+    static boolean heroAttack(GrindCharacter hero, GrindCharacter monster) {
         int currentDamageHero = hero.currentDamage();
         if (monster.hp - currentDamageHero > 0) {
             monster.hp = monster.hp - currentDamageHero;
@@ -84,7 +88,7 @@ public class Main {
         }
         return false;
     }
-    static boolean monsterAttack(Character hero, Character monster){
+    static boolean monsterAttack(GrindCharacter hero, GrindCharacter monster){
         int currentDamageMonster = monster.currentDamage();
         if (hero.hp - currentDamageMonster > 0) {
             hero.hp = hero.hp - currentDamageMonster;
@@ -99,37 +103,37 @@ public class Main {
         return false;
     }
 
-    static List<Character> fillingMonsterList(List<Character> allMonsters){
-        Character character;
+    static List<GrindCharacter> fillingMonsterList(List<GrindCharacter> allMonsters){
+        GrindCharacter character;
 
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
-            Character monster = new Character("Гигантская крыса", 65, 65, 4, 7, 10, drops);
+            GrindCharacter monster = new GrindCharacter("Гигантская крыса", 65, 65, 4, 7, 10, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 8),
                     new WeightDrop("Ржавая кочерга", 2));
-            Character monster = new Character("Гоблин", 90, 90, 6, 9, 15, drops);
+            GrindCharacter monster = new GrindCharacter("Гоблин", 90, 90, 6, 9, 15, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовая жилетка", 1));
-            Character monster = new Character("Фамильяр", 165, 165, 2, 6, 20, drops);
+            GrindCharacter monster = new GrindCharacter("Фамильяр", 165, 165, 2, 6, 20, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = new ArrayList<>();
-            Character monster = new Character("Волк", 105, 105, 7, 11, 25, drops);
+            GrindCharacter monster = new GrindCharacter("Волк", 105, 105, 7, 11, 25, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 5),
                     new WeightDrop("Холщовая жилетка", 5));
-            character = new Character("Упырь", 150, 150, 5, 8, 30, drops);
+            character = new GrindCharacter("Упырь", 150, 150, 5, 8, 30, drops);
             allMonsters.add(character);
         }
         {
@@ -138,7 +142,7 @@ public class Main {
                     new WeightDrop("Холщовая жилетка", 2),
                     new WeightDrop("Холщовые штаны", 2),
                     new WeightDrop("Ржавая кочерга", 4));
-            character = new Character("Призрак", 130, 130, 10, 10, 35, drops);
+            character = new GrindCharacter("Призрак", 130, 130, 10, 10, 35, drops);
             allMonsters.add(character);
         }
         return allMonsters;
@@ -203,7 +207,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // write your code here
         Scanner scanner = new Scanner(System.in);
-        Character hero = new Character("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        GrindCharacter hero = new GrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         List<Item> inventGarm = new ArrayList<>();
         Inventory invGarm = new Inventory("Гарм");
 
@@ -211,7 +215,7 @@ public class Main {
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
         Doll equipInvGarm = new FileDoll(doll);
 
-        List<Character> allMonsters = new ArrayList<>();
+        List<GrindCharacter> allMonsters = new ArrayList<>();
         allMonsters = fillingMonsterList(allMonsters);
 
         List<Drop> allItemDrops = new ArrayList<>();

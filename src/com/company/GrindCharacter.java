@@ -3,7 +3,7 @@ package com.company;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Character {
+public class GrindCharacter {
     String name;
     int maxHp;
     int hp;
@@ -15,7 +15,7 @@ public class Character {
     boolean perkDoubleAttack;
     List<WeightDrop> itemDrop;
 
-    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
+    public GrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
         this.name = name;
         this.maxHp = maxHp;
         this.hp = hp;
@@ -27,7 +27,7 @@ public class Character {
         this.perkDoubleAttack = perkDoubleAttack;
     }
 
-    public Character(String name, int maxHp, int hp, int minStr, int maxStr, int exp, List<WeightDrop> itemDrop){
+    public GrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int exp, List<WeightDrop> itemDrop){
         this.name = name;
         this.maxHp = maxHp;
         this.hp = hp;
@@ -37,7 +37,7 @@ public class Character {
         this.itemDrop = itemDrop;
     }
 
-    public Character(){}
+    public GrindCharacter(){}
 
     public int currentDamage() {
         if (minStr != maxStr) {

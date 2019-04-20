@@ -7,11 +7,11 @@ public class Item {
     public static final int LEGS = 2;
     public static final int WEAPON = 3;
 
-    String name;
+    public String name;
     int plusMinStr;
     int plusMaxStr;
     int plusMaxHp;
-    int category;
+    public int category;
     public Item(String name, int plusMinStr, int plusMaxStr, int category){
         this.name = name;
         this.plusMinStr = plusMinStr;
