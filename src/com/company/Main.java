@@ -105,8 +105,9 @@ public class Main {
         return false;
     }
 
-    static List<GrindCharacter> fillingMonsterList(List<GrindCharacter> allMonsters){
+    static List<GrindCharacter> monsterList(){
         GrindCharacter character;
+        List<GrindCharacter> allMonsters = new ArrayList<>();
 
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
@@ -149,18 +150,7 @@ public class Main {
         }
         return allMonsters;
     }
-    static List<Item> fillingItemList(List<Item> allItems){
-        Item item;
-        item = new Item("Холщовый капюшон", 5, Item.HEAD);
-        allItems.add(item);
-        item = new Item("Холщовая жилетка", 15, Item.TORSO);
-        allItems.add(item);
-        item = new Item("Холщовые штаны", 10, Item.LEGS);
-        allItems.add(item);
-        item = new Item("Ржавая кочерга", 2, 1, Item.WEAPON);
-        allItems.add(item);
-        return allItems;
-    }
+
     static void printListInvent(Inventory inv, List<String> category){
         if (inv.items().size() > 0) {
             System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
@@ -207,20 +197,15 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        // write your code here
         Scanner scanner = new Scanner(System.in);
         GrindCharacter hero = new GrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
-        List<Item> inventGarm = new ArrayList<>();
         Inventory invGarm = new Inventory("Гарм");
 
         Doll originalDoll = new InventoryDollCopy();
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
         Doll equipInvGarm = new FileDoll(doll);
 
-        List<GrindCharacter> allMonsters = new ArrayList<>();
-        allMonsters = fillingMonsterList(allMonsters);
-
-        List<Drop> allItemDrops = new ArrayList<>();
+        List<GrindCharacter> allMonsters = monsterList();
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
@@ -228,14 +213,14 @@ public class Main {
         category.add("Ноги");
         category.add("Оружие");
 
-//        allItemDrops = fillingDropList(allItemDrops);
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
-            countKill.put(allMonsters.get(i).name, 0);
+            GrindCharacter allMonster = allMonsters.get(i);
+            countKill.put(allMonster.name, 0);
         }
         AllItems allItems = new AllItems("AllItems.txt");
 
-        for (int i = 0; i < 1; )
+        while (true) {
             if (hero.hp > 0) {
                 System.out.println("у вас " + hero.hp + " единиц здоровья.");
                 System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - открыть меню инвентаря; 4 - отступить.");
@@ -269,7 +254,6 @@ public class Main {
                         } else if (switcherModeInv == 1) {
                             while(true) {
                                 printListInvent(invGarm, category);
-//                                System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
                                 int switcherInv = scanner.nextInt();
                                 if (switcherInv != 0) {
                                     Item itemByIndex = invGarm.items().get(switcherInv - 1);
@@ -320,6 +304,7 @@ public class Main {
                 System.out.println("Вы погибли и успели убить:");
                 break;
             }
+        }
         for (Map.Entry<String, Integer> stringIntegerEntry : countKill.entrySet()) {
             if (stringIntegerEntry.getValue() > 0) {
                 System.out.println(stringIntegerEntry.getKey() + " - " + stringIntegerEntry.getValue());
