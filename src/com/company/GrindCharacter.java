@@ -5,13 +5,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GrindCharacter {
     String name;
-    int maxHp;
-    int hp;
-    int minStr;
-    int maxStr;
-    int lvl;
-    int nextLvl;
-    int exp;
+    private int maxHp;
+    private int hp;
+    private int minStr;
+    private int maxStr;
+    private int lvl;
+    private int nextLvl;
+    private int exp;
     private boolean perkDoubleAttack;
     List<WeightDrop> itemDrop;
 
@@ -52,5 +52,74 @@ public class GrindCharacter {
 
     public void enableDoubleAttack() {
         perkDoubleAttack = true;
+    }
+
+    public int maxHp() {
+        return maxHp;
+    }
+
+    public void increaseMaxHp(int plusMaxHp) {
+        maxHp = maxHp + plusMaxHp;
+    }
+
+    public int hp(){
+        return hp;
+    }
+
+    public void increaseHp(int restoreHp){
+        if (maxHp - hp < restoreHp) {
+            hp = maxHp();
+        }else{
+            hp = hp + restoreHp;
+        }
+
+    }
+
+    public void decreaseHp(int damageHp){
+        hp = hp - damageHp;
+    }
+
+    public int minStr() {
+        return minStr;
+    }
+
+    public void increaseMinStr(int plusMinStr) {
+        minStr = minStr + plusMinStr;
+    }
+
+    public int maxStr() {
+        return maxStr;
+    }
+
+    public void increaseMaxStr(int plusMaxStr) {
+        maxStr = maxStr + plusMaxStr;
+    }
+
+    public int lvl() {
+        return lvl;
+    }
+
+    public void increaseLvl() {
+        lvl = lvl + 1;
+    }
+
+    public int nextLvl() {
+        return nextLvl;
+    }
+
+    public void increaseNextLvl() {
+        nextLvl = nextLvl * 2;
+    }
+
+    public int exp() {
+        return exp;
+    }
+
+    public void increaseExp(int plusExp){
+        exp = exp + plusExp;
+    }
+
+    public void decreaseExp(int minusExp) {
+        exp = exp - minusExp;
     }
 }

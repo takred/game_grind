@@ -33,71 +33,72 @@ public class Main {
     }
 
     static GrindCharacter lvlUp(GrindCharacter hero) {
-        hero.lvl = hero.lvl + 1;
-        if (hero.lvl % 4 == 0 && hero.lvl != 32) {
+        hero.increaseLvl();
+        if (hero.lvl() % 4 == 0 && hero.lvl() != 32) {
             System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
                     " 2 - увеличить минимальнй порог урона на 2; 3 - увеличить максимальный порог урона на 2;");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
             if (choice == 1) {
-                hero.maxHp = hero.maxHp + 20;
+                hero.increaseMaxHp(20);
             } else if (choice == 2) {
-                hero.minStr = hero.minStr + 2;
+                hero.increaseMinStr(2);
             } else if (choice == 3) {
-                hero.maxStr = hero.maxStr + 2;
+                hero.increaseMaxStr(2);
             }
-        } else if (hero.lvl == 32) {
+        } else if (hero.lvl() == 32) {
             System.out.println("Вы получили новую особенность - \"Двойной удар\"!");
             hero.enableDoubleAttack();
         }
-        hero.maxHp = hero.maxHp + 10;
-        hero.hp = hero.maxHp;
-        hero.minStr = hero.minStr + 1;
-        hero.maxStr = hero.maxStr + 1;
-        hero.exp = hero.exp - hero.nextLvl;
-        hero.nextLvl = hero.nextLvl * 2;
+        hero.increaseMaxHp(10);
+        hero.increaseHp(hero.maxHp());
+        hero.increaseMinStr(1);
+        hero.increaseMaxStr(1);
+        hero.decreaseExp(hero.nextLvl());
+        hero.increaseNextLvl();
         return hero;
     }
 
     static GrindCharacter rest(GrindCharacter hero, int hours){
-        if (hero.maxHp - hero.hp < (20 * hours)) {
-            hero.hp = hero.maxHp;
-        } else {
-            hero.hp = hero.hp + (20 * hours);
-        }
+//        if (hero.maxHp() - hero.hp() < (20 * hours)) {
+//            hero.hp = hero.maxHp();
+//        } else {
+//            hero.hp = hero.hp + (20 * hours);
+//        }
+        hero.increaseHp(20 * hours);
         System.out.println("Вы отдохнули.");
         return hero;
     }
 
     static boolean heroAttack(GrindCharacter hero, EquipedCharacter equipedHero, GrindCharacter monster) {
         int currentDamageHero = equipedHero.currentDamage();
-        if (monster.hp - currentDamageHero > 0) {
-            monster.hp = monster.hp - currentDamageHero;
+        if (monster.hp() - currentDamageHero > 0) {
+            monster.decreaseHp(currentDamageHero);
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
-                    + " осталось " + monster.hp + " здоровья.");
+                    + " осталось " + monster.hp() + " здоровья.");
         } else {
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
             System.out.println("Вы убили " + monster.name + ".");
-            hero.exp = hero.exp + monster.exp;
-            monster.hp = monster.maxHp;
-            System.out.println("Вы получили " + monster.exp + " опыта.");
-            if (hero.exp >= hero.nextLvl) {
-                System.out.println("Вы повысили уровень до " + (hero.lvl + 1) + "-го !");
+            hero.increaseExp(monster.exp());
+            monster.increaseHp(monster.maxHp());
+            System.out.println("Вы получили " + monster.exp() + " опыта.");
+            if (hero.exp() >= hero.nextLvl()) {
+                System.out.println("Вы повысили уровень до " + (hero.lvl() + 1) + "-го !");
                 hero = lvlUp(hero);
             }
-            System.out.println("У вас " + hero.exp + "/" + hero.nextLvl + " опыта.");
+            System.out.println("У вас " + hero.exp() + "/" + hero.nextLvl() + " опыта.");
             return true;
         }
         return false;
     }
     static boolean monsterAttack(GrindCharacter hero, GrindCharacter monster){
         int currentDamageMonster = monster.currentDamage();
-        if (hero.hp - currentDamageMonster > 0) {
-            hero.hp = hero.hp - currentDamageMonster;
+        if (hero.hp() - currentDamageMonster > 0) {
+            hero.decreaseHp(currentDamageMonster);
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
-                    + hero.hp + " здоровья.");
+                    + hero.hp() + " здоровья.");
         } else {
-            hero.hp = hero.hp - currentDamageMonster;
+            hero.decreaseHp(currentDamageMonster);
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
             System.out.println("Вас убил " + monster.name + ".");
             return true;
@@ -223,8 +224,8 @@ public class Main {
         AllItems allItems = new AllItems("AllItems.txt");
 
         while (true) {
-            if (heroGarm.hp > 0) {
-                System.out.println("у вас " + heroGarm.hp + " единиц здоровья.");
+            if (heroGarm.hp() > 0) {
+                System.out.println("у вас " + heroGarm.hp() + " единиц здоровья.");
                 System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - открыть меню инвентаря; 4 - отступить.");
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {

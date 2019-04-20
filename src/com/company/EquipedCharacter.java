@@ -16,10 +16,10 @@ public class EquipedCharacter {
 
     public int currentDamage(){
         Item weapon = equipInvHero.items().get(3);
-        if (hero.minStr != hero.maxStr && weapon != null) {
-            return ThreadLocalRandom.current().nextInt(hero.minStr + weapon.plusMinStr,
-                    hero.maxStr + weapon.plusMaxStr);
+        if (hero.minStr() != hero.maxStr() && weapon != null) {
+            return ThreadLocalRandom.current().nextInt(hero.minStr() + weapon.plusMinStr,
+                    hero.maxStr() + weapon.plusMaxStr);
         }
-        return ThreadLocalRandom.current().nextInt(hero.minStr, hero.maxStr);
+        return ThreadLocalRandom.current().nextInt(hero.minStr(), hero.maxStr());
     }
 }
