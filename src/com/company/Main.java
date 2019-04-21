@@ -11,20 +11,20 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    static int fightResult(GrindCharacter hero, EquipedCharacter equipedHero, GrindCharacter monster) {
+    static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster) {
         for (int i = 0; i < 1000; i++) {
-            boolean resultHeroAttack = heroAttack(hero,equipedHero, monster);
+            boolean resultHeroAttack = heroAttack(equipedHero, monster);
             if (resultHeroAttack) {
                 return 0;
             }
-            if(hero.perkDoubleAttack()){
+            if(equipedHero.perkDoubleAttack()){
                 System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
-                resultHeroAttack = heroAttack(hero,equipedHero, monster);
+                resultHeroAttack = heroAttack(equipedHero, monster);
                 if (resultHeroAttack){
                     return 0;
                 }
             }
-            boolean resultMonsterAttack = monsterAttack(hero, monster);
+            boolean resultMonsterAttack = monsterAttack(equipedHero, monster);
             if (resultMonsterAttack){
                 return 1;
             }
@@ -51,7 +51,7 @@ public class Main {
             hero.enableDoubleAttack();
         }
         hero.increaseMaxHp(10);
-        hero.increaseHp(hero.maxHp());
+        hero.restoreMaxHp();
         hero.increaseMinStr(1);
         hero.increaseMaxStr(1);
         hero.decreaseExp(hero.nextLvl());
@@ -59,44 +59,44 @@ public class Main {
         return hero;
     }
 
-    static GrindCharacter rest(GrindCharacter hero, int hours){
-//        if (hero.maxHp() - hero.hp() < (20 * hours)) {
-//            hero.hp = hero.maxHp();
-//        } else {
-//            hero.hp = hero.hp + (20 * hours);
-//        }
-        hero.increaseHp(20 * hours);
+    static void rest(GrindCharacter hero, int hours){
+        if (hero.maxHp() - hero.hp() < 20 * hours) {
+            hero.restoreMaxHp();
+        }else{
+            hero.increaseHp(20 * hours);
+        }
+//        hero.increaseHp(20 * hours);
         System.out.println("Вы отдохнули.");
-        return hero;
     }
 
-    static boolean heroAttack(GrindCharacter hero, EquipedCharacter equipedHero, GrindCharacter monster) {
+    static boolean heroAttack(GrindCharacter equipedHero, NakedGrindCharacter monster) {
         int currentDamageHero = equipedHero.currentDamage();
         if (monster.hp() - currentDamageHero > 0) {
             monster.decreaseHp(currentDamageHero);
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
-                    + " осталось " + monster.hp() + " здоровья.");
+                    + " осталось " + monster.hp() + " здоровья из " + monster.maxHp() + ".");
         } else {
             System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
             System.out.println("Вы убили " + monster.name + ".");
-            hero.increaseExp(monster.exp());
+            equipedHero.increaseExp(monster.exp());
             monster.increaseHp(monster.maxHp());
             System.out.println("Вы получили " + monster.exp() + " опыта.");
-            if (hero.exp() >= hero.nextLvl()) {
-                System.out.println("Вы повысили уровень до " + (hero.lvl() + 1) + "-го !");
-                hero = lvlUp(hero);
+            if (equipedHero.exp() >= equipedHero.nextLvl()) {
+                System.out.println("Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
+                lvlUp(equipedHero);
+//                ПОМЕТКА
             }
-            System.out.println("У вас " + hero.exp() + "/" + hero.nextLvl() + " опыта.");
+            System.out.println("У вас " + equipedHero.exp() + "/" + equipedHero.nextLvl() + " опыта.");
             return true;
         }
         return false;
     }
-    static boolean monsterAttack(GrindCharacter hero, GrindCharacter monster){
+    static boolean monsterAttack(GrindCharacter hero, NakedGrindCharacter monster){
         int currentDamageMonster = monster.currentDamage();
         if (hero.hp() - currentDamageMonster > 0) {
             hero.decreaseHp(currentDamageMonster);
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
-                    + hero.hp() + " здоровья.");
+                    + hero.hp() + " здоровья из " + hero.maxHp() + ".");
         } else {
             hero.decreaseHp(currentDamageMonster);
             System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
@@ -106,38 +106,38 @@ public class Main {
         return false;
     }
 
-    static List<GrindCharacter> monsterList(){
-        GrindCharacter character;
-        List<GrindCharacter> allMonsters = new ArrayList<>();
+    static List<NakedGrindCharacter> monsterList(){
+        NakedGrindCharacter character;
+        List<NakedGrindCharacter> allMonsters = new ArrayList<>();
 
         {
             List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
-            GrindCharacter monster = new GrindCharacter("Гигантская крыса", 65, 65, 4, 7, 10, drops);
+            NakedGrindCharacter monster = new NakedGrindCharacter("Гигантская крыса", 65, 65, 4, 7, 10, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 8),
                     new WeightDrop("Ржавая кочерга", 2));
-            GrindCharacter monster = new GrindCharacter("Гоблин", 90, 90, 6, 9, 15, drops);
+            NakedGrindCharacter monster = new NakedGrindCharacter("Гоблин", 90, 90, 6, 9, 15, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовая жилетка", 1));
-            GrindCharacter monster = new GrindCharacter("Фамильяр", 165, 165, 2, 6, 20, drops);
+            NakedGrindCharacter monster = new NakedGrindCharacter("Фамильяр", 165, 165, 2, 6, 20, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = new ArrayList<>();
-            GrindCharacter monster = new GrindCharacter("Волк", 105, 105, 7, 11, 25, drops);
+            NakedGrindCharacter monster = new NakedGrindCharacter("Волк", 105, 105, 7, 11, 25, drops);
             allMonsters.add(monster);
         }
         {
             List<WeightDrop> drops = Arrays.asList(
                     new WeightDrop("Холщовые штаны", 5),
                     new WeightDrop("Холщовая жилетка", 5));
-            character = new GrindCharacter("Упырь", 150, 150, 5, 8, 30, drops);
+            character = new NakedGrindCharacter("Упырь", 150, 150, 5, 8, 30, drops);
             allMonsters.add(character);
         }
         {
@@ -146,7 +146,7 @@ public class Main {
                     new WeightDrop("Холщовая жилетка", 2),
                     new WeightDrop("Холщовые штаны", 2),
                     new WeightDrop("Ржавая кочерга", 4));
-            character = new GrindCharacter("Призрак", 130, 130, 10, 10, 35, drops);
+            character = new NakedGrindCharacter("Призрак", 130, 130, 10, 10, 35, drops);
             allMonsters.add(character);
         }
         return allMonsters;
@@ -199,16 +199,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        GrindCharacter heroGarm = new GrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         Inventory invGarm = new Inventory("Гарм");
 
         Doll originalDoll = new InventoryDollCopy();
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
         Doll equipInvGarm = new FileDoll(doll);
 
-        EquipedCharacter equipedGarm = new EquipedCharacter(equipInvGarm, heroGarm);
+//        EquipedCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+        GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
 
-        List<GrindCharacter> allMonsters = monsterList();
+        List<NakedGrindCharacter> allMonsters = monsterList();
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
@@ -218,14 +219,14 @@ public class Main {
 
         Map<String, Integer> countKill = new HashMap<>();
         for (int i = 0; i < allMonsters.size(); i++) {
-            GrindCharacter allMonster = allMonsters.get(i);
+            NakedGrindCharacter allMonster = allMonsters.get(i);
             countKill.put(allMonster.name, 0);
         }
         AllItems allItems = new AllItems("AllItems.txt");
 
         while (true) {
-            if (heroGarm.hp() > 0) {
-                System.out.println("у вас " + heroGarm.hp() + " единиц здоровья.");
+            if (equipedHeroGarm.hp() > 0) {
+                System.out.println("у вас " + equipedHeroGarm.hp() + " единиц здоровья из " + equipedHeroGarm.maxHp() + ".");
                 System.out.println("Введите: 1 - напасть на монстра; 2 - отдохнуть(восстановить 20 здоровья за 1 час); 3 - открыть меню инвентаря; 4 - отступить.");
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {
@@ -234,7 +235,7 @@ public class Main {
                         System.out.println(j + 1 + " - " + allMonsters.get(j).name);
                     }
                     int switcherMonster = scanner.nextInt();
-                    int result = fightResult(heroGarm,equipedGarm, allMonsters.get(switcherMonster - 1));
+                    int result = fightResult(equipedHeroGarm, allMonsters.get(switcherMonster - 1));
                     if (result == 0) {
                         WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.get(switcherMonster - 1).itemDrop);
                         String currentMonster = allMonsters.get(switcherMonster - 1).name;
@@ -247,7 +248,7 @@ public class Main {
                 } else if (switcherMode == 2) {
                     System.out.println("Введите сколько часов вы хотите отдохнуть: ");
                     int hours = scanner.nextInt();
-                    rest(heroGarm, hours);
+                    rest(equipedHeroGarm, hours);
                 } else if (switcherMode == 3){
                     while(true) {
                         System.out.println("Выберите действие: 1 - Посмотреть инвентарь; 2 - Посмотреть надетые предметы; 0 - Выход.");

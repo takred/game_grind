@@ -1,125 +1,43 @@
 package com.company;
 
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+public interface GrindCharacter {
+    int currentDamage();
 
-public class GrindCharacter {
-    String name;
-    private int maxHp;
-    private int hp;
-    private int minStr;
-    private int maxStr;
-    private int lvl;
-    private int nextLvl;
-    private int exp;
-    private boolean perkDoubleAttack;
-    List<WeightDrop> itemDrop;
+    boolean perkDoubleAttack();
 
-    public GrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
-        this.name = name;
-        this.maxHp = maxHp;
-        this.hp = hp;
-        this.minStr = minStr;
-        this.maxStr = maxStr;
-        this.lvl = lvl;
-        this.nextLvl = nextLvl;
-        this.exp = exp;
-        this.perkDoubleAttack = perkDoubleAttack;
-    }
+    void enableDoubleAttack();
 
-    public GrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int exp, List<WeightDrop> itemDrop){
-        this.name = name;
-        this.maxHp = maxHp;
-        this.hp = hp;
-        this.minStr = minStr;
-        this.maxStr = maxStr;
-        this.exp = exp;
-        this.itemDrop = itemDrop;
-    }
+    int maxHp();
 
-    public GrindCharacter(){}
+    void increaseMaxHp(int plusMaxHp);
 
-    public int currentDamage() {
-        if (minStr != maxStr) {
-            return ThreadLocalRandom.current().nextInt(minStr, maxStr);
-        }
-        return minStr;
-    }
+    int hp();
 
-    public boolean perkDoubleAttack() {
-        return perkDoubleAttack;
-    }
+    void increaseHp(int restoreHp);
 
-    public void enableDoubleAttack() {
-        perkDoubleAttack = true;
-    }
+    void restoreMaxHp();
 
-    public int maxHp() {
-        return maxHp;
-    }
+    void decreaseHp(int damageHp);
 
-    public void increaseMaxHp(int plusMaxHp) {
-        maxHp = maxHp + plusMaxHp;
-    }
+    int minStr();
 
-    public int hp(){
-        return hp;
-    }
+    void increaseMinStr(int plusMinStr);
 
-    public void increaseHp(int restoreHp){
-        if (maxHp - hp < restoreHp) {
-            hp = maxHp();
-        }else{
-            hp = hp + restoreHp;
-        }
+    int maxStr();
 
-    }
+    void increaseMaxStr(int plusMaxStr);
 
-    public void decreaseHp(int damageHp){
-        hp = hp - damageHp;
-    }
+    int lvl();
 
-    public int minStr() {
-        return minStr;
-    }
+    void increaseLvl();
 
-    public void increaseMinStr(int plusMinStr) {
-        minStr = minStr + plusMinStr;
-    }
+    int nextLvl();
 
-    public int maxStr() {
-        return maxStr;
-    }
+    void increaseNextLvl();
 
-    public void increaseMaxStr(int plusMaxStr) {
-        maxStr = maxStr + plusMaxStr;
-    }
+    int exp();
 
-    public int lvl() {
-        return lvl;
-    }
+    void increaseExp(int plusExp);
 
-    public void increaseLvl() {
-        lvl = lvl + 1;
-    }
-
-    public int nextLvl() {
-        return nextLvl;
-    }
-
-    public void increaseNextLvl() {
-        nextLvl = nextLvl * 2;
-    }
-
-    public int exp() {
-        return exp;
-    }
-
-    public void increaseExp(int plusExp){
-        exp = exp + plusExp;
-    }
-
-    public void decreaseExp(int minusExp) {
-        exp = exp - minusExp;
-    }
+    void decreaseExp(int minusExp);
 }
