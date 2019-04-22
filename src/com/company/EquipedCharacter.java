@@ -15,12 +15,7 @@ public class EquipedCharacter implements GrindCharacter{
     }
 
     public int currentDamage(){
-        Item weapon = equipInvHero.items().get(3);
-        if (hero.minStr() != hero.maxStr() && weapon != null) {
-            return ThreadLocalRandom.current().nextInt(hero.minStr() + weapon.plusMinStr,
-                    hero.maxStr() + weapon.plusMaxStr);
-        }
-        return ThreadLocalRandom.current().nextInt(hero.minStr(), hero.maxStr());
+        return ThreadLocalRandom.current().nextInt(minStr(), maxStr());
     }
 
     @Override
@@ -60,8 +55,8 @@ public class EquipedCharacter implements GrindCharacter{
     }
 
     @Override
-    public void restoreMaxHp() {
-        hero.restoreMaxHp();
+    public void restoreMaxHp(int maxHp) {
+        hero.restoreMaxHp(maxHp);
     }
 
     @Override
@@ -71,7 +66,13 @@ public class EquipedCharacter implements GrindCharacter{
 
     @Override
     public int minStr() {
-        return hero.minStr();
+        int minStr = hero.minStr();
+        for (int i = 0; i < equipInvHero.items().size(); i++) {
+            if (equipInvHero.items().get(i) != null && equipInvHero.items().get(i).plusMinStr > 0){
+                minStr = minStr + equipInvHero.items().get(i).plusMinStr;
+            }
+        }
+        return minStr;
     }
 
     @Override
@@ -81,7 +82,13 @@ public class EquipedCharacter implements GrindCharacter{
 
     @Override
     public int maxStr() {
-        return hero.maxStr();
+        int maxStr = hero.maxStr();
+        for (int i = 0; i < equipInvHero.items().size(); i++) {
+            if (equipInvHero.items().get(i) != null && equipInvHero.items().get(i).plusMaxStr > 0){
+                maxStr = maxStr + equipInvHero.items().get(i).plusMaxStr;
+            }
+        }
+        return maxStr;
     }
 
     @Override

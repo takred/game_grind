@@ -70,7 +70,7 @@ public class NakedGrindCharacter implements GrindCharacter{
             hp = hp + restoreHp;
     }
 
-    public void restoreMaxHp(){
+    public void restoreMaxHp(int maxHp){
         hp = maxHp;
     }
 
