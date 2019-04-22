@@ -205,7 +205,6 @@ public class Main {
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
         Doll equipInvGarm = new FileDoll(doll);
 
-//        EquipedCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
         GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
 
         List<NakedGrindCharacter> allMonsters = monsterList();
