@@ -55,11 +55,6 @@ public class EquipedCharacter implements GrindCharacter{
     }
 
     @Override
-    public void restoreMaxHp(int maxHp) {
-        hero.restoreMaxHp(maxHp);
-    }
-
-    @Override
     public void decreaseHp(int damageHp) {
         hero.decreaseHp(damageHp);
     }

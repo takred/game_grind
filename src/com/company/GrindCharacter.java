@@ -15,8 +15,6 @@ public interface GrindCharacter {
 
     void increaseHp(int restoreHp);
 
-    void restoreMaxHp(int maxHp);
-
     void decreaseHp(int damageHp);
 
     int minStr();

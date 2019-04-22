@@ -51,7 +51,7 @@ public class Main {
             hero.enableDoubleAttack();
         }
         hero.increaseMaxHp(10);
-        hero.restoreMaxHp(hero.maxHp());
+        hero.increaseHp(hero.maxHp() - hero.hp());
         hero.increaseMinStr(1);
         hero.increaseMaxStr(1);
         hero.decreaseExp(hero.nextLvl());
@@ -61,11 +61,10 @@ public class Main {
 
     static void rest(GrindCharacter hero, int hours){
         if (hero.maxHp() - hero.hp() < 20 * hours) {
-            hero.restoreMaxHp(hero.maxHp());
+            hero.increaseHp(hero.maxHp() - hero.hp());
         }else{
             hero.increaseHp(20 * hours);
         }
-//        hero.increaseHp(20 * hours);
         System.out.println("Вы отдохнули.");
     }
 
