@@ -1,9 +1,10 @@
-package com.company;
+package com.company.doll;
+
+import com.company.items.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class InventoryDollCopy implements Doll {
     String nameHero;

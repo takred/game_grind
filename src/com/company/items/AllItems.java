@@ -1,4 +1,4 @@
-package com.company;
+package com.company.items;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 public class AllItems {
     private List<Item> items = new ArrayList<>();
 
-    public AllItems(List<Item> allItems){
-        items = allItems;
-    }
+
     public AllItems(String fileName) throws IOException {
         InputStream inputStream = new FileInputStream(fileName);
         Reader reader = new InputStreamReader(inputStream);

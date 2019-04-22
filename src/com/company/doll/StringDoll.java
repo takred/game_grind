@@ -1,12 +1,14 @@
-package com.company;
+package com.company.doll;
+
+import com.company.Inventory;
+import com.company.items.Item;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringDoll implements Doll{
+public class StringDoll implements Doll {
     String nameHero;
     Doll doll;
     private List<Item> equippedItem = new ArrayList<>();

@@ -1,4 +1,4 @@
-import com.company.Item;
+import com.company.items.Item;
 
 import java.util.List;
 

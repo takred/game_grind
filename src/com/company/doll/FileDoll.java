@@ -1,14 +1,12 @@
-package com.company;
+package com.company.doll;
 
-import com.company.Doll;
-import com.company.Item;
+import com.company.items.Item;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FileDoll implements Doll {
