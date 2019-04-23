@@ -1,11 +1,13 @@
-package com.company;
+package com.company.character;
 
+import com.company.WeightDrop;
+import com.company.character.GrindCharacter;
 import com.company.doll.Doll;
-import com.company.items.Item;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class EquipedCharacter implements GrindCharacter{
+public class EquipedCharacter implements GrindCharacter {
     private final Doll equipInvHero;
     private final GrindCharacter hero;
 
@@ -14,8 +16,15 @@ public class EquipedCharacter implements GrindCharacter{
         this.hero = hero;
     }
 
+
+
     public int currentDamage(){
         return ThreadLocalRandom.current().nextInt(minStr(), maxStr());
+    }
+
+    @Override
+    public String name() {
+        return hero.name();
     }
 
     @Override
@@ -124,5 +133,10 @@ public class EquipedCharacter implements GrindCharacter{
     @Override
     public void decreaseExp(int minusExp) {
         hero.decreaseExp(minusExp);
+    }
+
+    @Override
+    public List<WeightDrop> itemDrop() {
+        return itemDrop();
     }
 }

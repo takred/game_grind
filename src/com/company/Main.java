@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.character.EquipedCharacter;
+import com.company.character.GrindCharacter;
+import com.company.character.NakedGrindCharacter;
 import com.company.doll.Doll;
 import com.company.doll.FileDoll;
 import com.company.doll.InventoryDollCopy;
@@ -72,11 +75,11 @@ public class Main {
         int currentDamageHero = equipedHero.currentDamage();
         if (monster.hp() - currentDamageHero > 0) {
             monster.decreaseHp(currentDamageHero);
-            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона." + " У " + monster.name
+            System.out.println("Вы нанесли " + monster.name() + " " + currentDamageHero + " урона." + " У " + monster.name()
                     + " осталось " + monster.hp() + " здоровья из " + monster.maxHp() + ".");
         } else {
-            System.out.println("Вы нанесли " + monster.name + " " + currentDamageHero + " урона.");
-            System.out.println("Вы убили " + monster.name + ".");
+            System.out.println("Вы нанесли " + monster.name() + " " + currentDamageHero + " урона.");
+            System.out.println("Вы убили " + monster.name() + ".");
             equipedHero.increaseExp(monster.exp());
             monster.increaseHp(monster.maxHp());
             System.out.println("Вы получили " + monster.exp() + " опыта.");
@@ -94,60 +97,61 @@ public class Main {
         int currentDamageMonster = monster.currentDamage();
         if (hero.hp() - currentDamageMonster > 0) {
             hero.decreaseHp(currentDamageMonster);
-            System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
+            System.out.println(monster.name() + " нанёс вам " + currentDamageMonster + " урона." + " У вас осталось "
                     + hero.hp() + " здоровья из " + hero.maxHp() + ".");
         } else {
             hero.decreaseHp(currentDamageMonster);
-            System.out.println(monster.name + " нанёс вам " + currentDamageMonster + " урона.");
-            System.out.println("Вас убил " + monster.name + ".");
+            System.out.println(monster.name() + " нанёс вам " + currentDamageMonster + " урона.");
+            System.out.println("Вас убил " + monster.name() + ".");
             return true;
         }
         return false;
     }
 
-    static List<NakedGrindCharacter> monsterList(){
-        NakedGrindCharacter character;
-        List<NakedGrindCharacter> allMonsters = new ArrayList<>();
-
-        {
-            List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
-            NakedGrindCharacter monster = new NakedGrindCharacter("Гигантская крыса", 65, 65, 4, 7, 10, drops);
-            allMonsters.add(monster);
-        }
-        {
-            List<WeightDrop> drops = Arrays.asList(
-                    new WeightDrop("Холщовые штаны", 8),
-                    new WeightDrop("Ржавая кочерга", 2));
-            NakedGrindCharacter monster = new NakedGrindCharacter("Гоблин", 90, 90, 6, 9, 15, drops);
-            allMonsters.add(monster);
-        }
-        {
-            List<WeightDrop> drops = Arrays.asList(
-                    new WeightDrop("Холщовая жилетка", 1));
-            NakedGrindCharacter monster = new NakedGrindCharacter("Фамильяр", 165, 165, 2, 6, 20, drops);
-            allMonsters.add(monster);
-        }
-        {
-            List<WeightDrop> drops = new ArrayList<>();
-            NakedGrindCharacter monster = new NakedGrindCharacter("Волк", 105, 105, 7, 11, 25, drops);
-            allMonsters.add(monster);
-        }
-        {
-            List<WeightDrop> drops = Arrays.asList(
-                    new WeightDrop("Холщовые штаны", 5),
-                    new WeightDrop("Холщовая жилетка", 5));
-            character = new NakedGrindCharacter("Упырь", 150, 150, 5, 8, 30, drops);
-            allMonsters.add(character);
-        }
-        {
-            List<WeightDrop> drops = Arrays.asList(
-                    new WeightDrop("Холщовый капюшон", 2),
-                    new WeightDrop("Холщовая жилетка", 2),
-                    new WeightDrop("Холщовые штаны", 2),
-                    new WeightDrop("Ржавая кочерга", 4));
-            character = new NakedGrindCharacter("Призрак", 130, 130, 10, 10, 35, drops);
-            allMonsters.add(character);
-        }
+    static AllMonsters monsterList() throws IOException {
+        AllMonsters allMonsters = new AllMonsters("AllMonsters.txt");
+//        NakedGrindCharacter character;
+//        List<NakedGrindCharacter> allMonsters = new ArrayList<>();
+//
+//        {
+//            List<WeightDrop> drops = Arrays.asList(new WeightDrop("Холщовый капюшон", 1));
+//            NakedGrindCharacter monster = new NakedGrindCharacter("Гигантская крыса", 65, 65, 4, 7, 10, drops);
+//            allMonsters.add(monster);
+//        }
+//        {
+//            List<WeightDrop> drops = Arrays.asList(
+//                    new WeightDrop("Холщовые штаны", 8),
+//                    new WeightDrop("Ржавая кочерга", 2));
+//            NakedGrindCharacter monster = new NakedGrindCharacter("Гоблин", 90, 90, 6, 9, 15, drops);
+//            allMonsters.add(monster);
+//        }
+//        {
+//            List<WeightDrop> drops = Arrays.asList(
+//                    new WeightDrop("Холщовая жилетка", 1));
+//            NakedGrindCharacter monster = new NakedGrindCharacter("Фамильяр", 165, 165, 2, 6, 20, drops);
+//            allMonsters.add(monster);
+//        }
+//        {
+//            List<WeightDrop> drops = new ArrayList<>();
+//            NakedGrindCharacter monster = new NakedGrindCharacter("Волк", 105, 105, 7, 11, 25, drops);
+//            allMonsters.add(monster);
+//        }
+//        {
+//            List<WeightDrop> drops = Arrays.asList(
+//                    new WeightDrop("Холщовые штаны", 5),
+//                    new WeightDrop("Холщовая жилетка", 5));
+//            character = new NakedGrindCharacter("Упырь", 150, 150, 5, 8, 30, drops);
+//            allMonsters.add(character);
+//        }
+//        {
+//            List<WeightDrop> drops = Arrays.asList(
+//                    new WeightDrop("Холщовый капюшон", 2),
+//                    new WeightDrop("Холщовая жилетка", 2),
+//                    new WeightDrop("Холщовые штаны", 2),
+//                    new WeightDrop("Ржавая кочерга", 4));
+//            character = new NakedGrindCharacter("Призрак", 130, 130, 10, 10, 35, drops);
+//            allMonsters.add(character);
+//        }
         return allMonsters;
     }
 
@@ -207,7 +211,7 @@ public class Main {
 
         GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
 
-        List<NakedGrindCharacter> allMonsters = monsterList();
+        AllMonsters allMonsters = monsterList();
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
@@ -216,9 +220,9 @@ public class Main {
         category.add("Оружие");
 
         Map<String, Integer> countKill = new HashMap<>();
-        for (int i = 0; i < allMonsters.size(); i++) {
-            NakedGrindCharacter allMonster = allMonsters.get(i);
-            countKill.put(allMonster.name, 0);
+        for (int i = 0; i < allMonsters.monstersList().size(); i++) {
+            NakedGrindCharacter allMonster = allMonsters.monstersList().get(i);
+            countKill.put(allMonster.name(), 0);
         }
         AllItems allItems = new AllItems("AllItems.txt");
 
@@ -229,14 +233,14 @@ public class Main {
                 int switcherMode = scanner.nextInt();
                 if (switcherMode == 1) {
                     System.out.println("Выберите противника :");
-                    for (int j = 0; j < allMonsters.size(); j++) {
-                        System.out.println(j + 1 + " - " + allMonsters.get(j).name);
+                    for (int j = 0; j < allMonsters.monstersList().size(); j++) {
+                        System.out.println(j + 1 + " - " + allMonsters.monstersList().get(j).name());
                     }
                     int switcherMonster = scanner.nextInt();
-                    int result = fightResult(equipedHeroGarm, allMonsters.get(switcherMonster - 1));
+                    int result = fightResult(equipedHeroGarm, allMonsters.monstersList().get(switcherMonster - 1));
                     if (result == 0) {
-                        WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.get(switcherMonster - 1).itemDrop);
-                        String currentMonster = allMonsters.get(switcherMonster - 1).name;
+                        WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.monstersList().get(switcherMonster - 1).itemDrop());
+                        String currentMonster = allMonsters.monstersList().get(switcherMonster - 1).name();
                         countKill.put(currentMonster, countKill.get(currentMonster) + 1);
                     } else if (result == 2) {
                         System.out.println("Ошибка! Этого не должно быть!");
