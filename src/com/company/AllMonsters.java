@@ -20,7 +20,7 @@ public class AllMonsters {
         inputStream.close();
         for (int i = 0; i < strings.size(); i++) {
             String string = strings.get(i);
-            int startIndName = string.indexOf("\"");
+            int startIndName = string.indexOf("\"") + 1;
             int endIndName = string.indexOf("\"", startIndName + 1);
             int firstBreakPoint = string.indexOf(",", endIndName + 2);
             int secondBreakPoint = string.indexOf(",", firstBreakPoint + 1);
@@ -31,7 +31,7 @@ public class AllMonsters {
             List<WeightDrop> monsterDrops = new ArrayList<>();
             if (string.substring(fourthBreakPoint + 1).contains(",")) {
                 int fifthBreakPoint = string.indexOf(",", fourthBreakPoint + 1);
-                int startIndexNameItem = string.indexOf("\"", fifthBreakPoint);
+                int startIndexNameItem = string.indexOf("\"", fifthBreakPoint) + 1;
                 int endIndexNameItem = string.indexOf("\"", startIndexNameItem + 1);
                 while (true) {
                     int lastElement = string.indexOf(",", endIndexNameItem + 2);
