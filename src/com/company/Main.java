@@ -155,7 +155,7 @@ public class Main {
         return allMonsters;
     }
 
-    static void printListInvent(Inventory inv, List<String> category){
+    static void printListInvent(GrindInventory inv, List<String> category){
         if (inv.items().size() > 0) {
             System.out.println("Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
             for (int a = 0; a < inv.items().size(); a++) {
@@ -203,7 +203,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
-        Inventory invGarm = new Inventory("Гарм");
+        GrindInventory inventory = new Inventory();
+        GrindInventory invGarm = new FileInventory("GarmInventory.txt", inventory);
+//        Inventory invGarm = new Inventory("Гарм");
 
         Doll originalDoll = new InventoryDollCopy();
         Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);

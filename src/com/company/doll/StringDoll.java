@@ -1,5 +1,6 @@
 package com.company.doll;
 
+import com.company.GrindInventory;
 import com.company.Inventory;
 import com.company.items.Item;
 
@@ -13,7 +14,7 @@ public class StringDoll implements Doll {
     Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
-    public StringDoll (List<String> listItem, Inventory inv, Doll doll) throws FileNotFoundException {
+    public StringDoll (List<String> listItem, GrindInventory inv, Doll doll) throws FileNotFoundException {
         this.doll = doll;
 
         for (int j = 0; j < listItem.size(); j++) {
@@ -27,7 +28,7 @@ public class StringDoll implements Doll {
         }
     }
 
-    public StringDoll(String fileName, Inventory inv, Doll doll ) throws IOException {
+    public StringDoll(String fileName, GrindInventory inv, Doll doll ) throws IOException {
         this.doll = doll;
 
         File file = new File(fileName);
