@@ -202,7 +202,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("CharacterGarm.txt");
+
         GrindInventory inventory = new Inventory();
         GrindInventory createInv = new FileInventory("GarmInventory.txt", inventory);
         GrindInventory invGarm = new PersistentInventory(createInv);

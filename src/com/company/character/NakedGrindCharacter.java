@@ -3,8 +3,10 @@ package com.company.character;
 import com.company.WeightDrop;
 import com.company.character.GrindCharacter;
 
+import java.io.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class NakedGrindCharacter implements GrindCharacter {
     private String name;
@@ -38,6 +40,33 @@ public class NakedGrindCharacter implements GrindCharacter {
         this.maxStr = maxStr;
         this.exp = exp;
         this.itemDrop = itemDrop;
+    }
+
+    public NakedGrindCharacter(String fileName) throws IOException {
+        InputStream inputStream = new FileInputStream(fileName);
+        Reader reader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        List<String> strings = bufferedReader.lines().collect(Collectors.toList());
+        inputStream.close();
+        String string = strings.get(0);
+        int startIndName = string.indexOf("\"");
+        int endIndName = string.indexOf("\"", startIndName + 1);
+        int borderMaxHp = string.indexOf(",", endIndName + 2);
+        int borderHp = string.indexOf(",", borderMaxHp + 1);
+        int borderMinStr = string.indexOf(",", borderHp + 1);
+        int borderMaxStr = string.indexOf(",", borderMinStr + 1);
+        int borderLvl = string.indexOf(",", borderMaxStr + 1);
+        int borderExpNextLvl = string.indexOf(",", borderLvl + 1);
+        int borderExp = string.indexOf(",", borderExpNextLvl + 1);
+        this.name = string.substring(startIndName + 1, endIndName);
+        maxHp = Integer.valueOf(string.substring(endIndName + 2, borderMaxHp));
+        hp = Integer.valueOf(string.substring(borderMaxHp + 1, borderHp));
+        minStr = Integer.valueOf(string.substring(borderHp + 1, borderMinStr));
+        maxStr = Integer.valueOf(string.substring(borderMinStr + 1, borderMaxStr));
+        lvl = Integer.valueOf(string.substring(borderMaxStr + 1, borderLvl));
+        nextLvl = Integer.valueOf(string.substring(borderLvl + 1, borderExpNextLvl));
+        exp = Integer.valueOf(string.substring(borderExpNextLvl + 1, borderExp));
+        perkDoubleAttack = Boolean.valueOf(string.substring(borderExp + 1));
     }
 
     public NakedGrindCharacter(){}
