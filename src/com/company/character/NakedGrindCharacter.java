@@ -1,10 +1,13 @@
-package com.company;
+package com.company.character;
+
+import com.company.WeightDrop;
+import com.company.character.GrindCharacter;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class NakedGrindCharacter implements GrindCharacter{
-    String name;
+public class NakedGrindCharacter implements GrindCharacter {
+    private String name;
     private int maxHp;
     private int hp;
     private int minStr;
@@ -13,7 +16,7 @@ public class NakedGrindCharacter implements GrindCharacter{
     private int nextLvl;
     private int exp;
     private boolean perkDoubleAttack;
-    List<WeightDrop> itemDrop;
+    private List<WeightDrop> itemDrop;
 
     public NakedGrindCharacter(String name, int maxHp, int hp, int minStr, int maxStr, int lvl, int nextLvl, int exp, boolean perkDoubleAttack){
         this.name = name;
@@ -44,6 +47,10 @@ public class NakedGrindCharacter implements GrindCharacter{
             return ThreadLocalRandom.current().nextInt(minStr, maxStr);
         }
         return minStr;
+    }
+
+    public String name() {
+        return name;
     }
 
     public boolean perkDoubleAttack() {
@@ -116,5 +123,9 @@ public class NakedGrindCharacter implements GrindCharacter{
 
     public void decreaseExp(int minusExp) {
         exp = exp - minusExp;
+    }
+
+    public List<WeightDrop> itemDrop() {
+        return itemDrop;
     }
 }

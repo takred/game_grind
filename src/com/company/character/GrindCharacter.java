@@ -1,6 +1,12 @@
-package com.company;
+package com.company.character;
+
+import com.company.WeightDrop;
+
+import java.util.List;
 
 public interface GrindCharacter {
+    String name();
+
     int currentDamage();
 
     boolean perkDoubleAttack();
@@ -38,4 +44,6 @@ public interface GrindCharacter {
     void increaseExp(int plusExp);
 
     void decreaseExp(int minusExp);
+
+    List<WeightDrop> itemDrop();
 }

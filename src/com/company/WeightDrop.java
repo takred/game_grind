@@ -14,7 +14,7 @@ public class WeightDrop {
         this.weight = weight;
     }
 
-    static void collect (Inventory inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops){
+    static void collect (GrindInventory inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops){
         if (monsterItemDrops.size() > 0) {
         int drop = ThreadLocalRandom.current().nextInt(1, 100);
         if (drop <= 10) {
