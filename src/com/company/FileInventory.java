@@ -60,12 +60,12 @@ public class FileInventory implements GrindInventory {
     }
 
     @Override
-    public void add(Item item) {
+    public void add(Item item) throws FileNotFoundException {
         heroInv.add(item);
     }
 
     @Override
-    public Item take(int slot) {
+    public Item take(int slot) throws FileNotFoundException {
         return heroInv.take(slot);
     }
 }

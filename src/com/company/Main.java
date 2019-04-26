@@ -204,12 +204,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         GrindInventory inventory = new Inventory();
-        GrindInventory invGarm = new FileInventory("GarmInventory.txt", inventory);
-//        Inventory invGarm = new Inventory("Гарм");
+        GrindInventory createInv = new FileInventory("GarmInventory.txt", inventory);
+        GrindInventory invGarm = new PersistentInventory(createInv);
 
         Doll originalDoll = new InventoryDollCopy();
-        Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
-        Doll equipInvGarm = new FileDoll(doll);
+        Doll createDoll = new StringDoll("FileDoll", invGarm, originalDoll);
+        Doll equipInvGarm = new FileDoll(createDoll);
 
         GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
 
