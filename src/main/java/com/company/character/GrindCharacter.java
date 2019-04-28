@@ -2,6 +2,8 @@ package com.company.character;
 
 import com.company.WeightDrop;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public interface GrindCharacter {
@@ -46,4 +48,6 @@ public interface GrindCharacter {
     void decreaseExp(int minusExp);
 
     List<WeightDrop> itemDrop();
+
+    void writeInFile() throws IOException;
 }

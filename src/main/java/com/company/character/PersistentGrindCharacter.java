@@ -1,30 +1,26 @@
 package com.company.character;
 
 import com.company.WeightDrop;
-import com.company.character.GrindCharacter;
-import com.company.doll.Doll;
 
+import java.io.*;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class EquipedCharacter implements GrindCharacter {
-    private final Doll equipInvHero;
-    private final GrindCharacter hero;
+public class PersistentGrindCharacter implements GrindCharacter {
 
-    public EquipedCharacter(Doll equipInvHero, GrindCharacter hero){
-        this.equipInvHero = equipInvHero;
+    private GrindCharacter hero;
+
+    public PersistentGrindCharacter(GrindCharacter hero){
         this.hero = hero;
-    }
-
-
-
-    public int currentDamage(){
-        return ThreadLocalRandom.current().nextInt(minStr(), maxStr());
     }
 
     @Override
     public String name() {
         return hero.name();
+    }
+
+    @Override
+    public int currentDamage() {
+        return hero.currentDamage();
     }
 
     @Override
@@ -39,13 +35,7 @@ public class EquipedCharacter implements GrindCharacter {
 
     @Override
     public int maxHp() {
-        int maxHp = hero.maxHp();
-        for (int i = 0; i < equipInvHero.items().size(); i++) {
-            if (equipInvHero.items().get(i) != null && equipInvHero.items().get(i).plusMaxHp > 0){
-                maxHp = maxHp + equipInvHero.items().get(i).plusMaxHp;
-            }
-        }
-        return maxHp;
+        return hero.maxHp();
     }
 
     @Override
@@ -70,13 +60,7 @@ public class EquipedCharacter implements GrindCharacter {
 
     @Override
     public int minStr() {
-        int minStr = hero.minStr();
-        for (int i = 0; i < equipInvHero.items().size(); i++) {
-            if (equipInvHero.items().get(i) != null && equipInvHero.items().get(i).plusMinStr > 0){
-                minStr = minStr + equipInvHero.items().get(i).plusMinStr;
-            }
-        }
-        return minStr;
+        return hero.minStr();
     }
 
     @Override
@@ -86,13 +70,7 @@ public class EquipedCharacter implements GrindCharacter {
 
     @Override
     public int maxStr() {
-        int maxStr = hero.maxStr();
-        for (int i = 0; i < equipInvHero.items().size(); i++) {
-            if (equipInvHero.items().get(i) != null && equipInvHero.items().get(i).plusMaxStr > 0){
-                maxStr = maxStr + equipInvHero.items().get(i).plusMaxStr;
-            }
-        }
-        return maxStr;
+        return hero.maxStr();
     }
 
     @Override
@@ -137,12 +115,14 @@ public class EquipedCharacter implements GrindCharacter {
 
     @Override
     public List<WeightDrop> itemDrop() {
-        return itemDrop();
+        return hero.itemDrop();
     }
 
-    @Override
-    public void writeInFile() {
-
+    public void writeInFile() throws IOException {
+        OutputStream outputStream = new  FileOutputStream("CharacterGarm.txt");
+        PrintWriter writer = new PrintWriter(outputStream);
+        writer.println("\"" +  hero.name() + "\"," + hero.maxHp() + "," + hero.hp() + "," + hero.minStr() +
+                "," + hero.maxStr() + "," + hero.lvl() + "," + hero.nextLvl() + "," + hero.exp() + "," + hero.perkDoubleAttack());
+        writer.close();
     }
-
 }

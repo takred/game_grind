@@ -1,22 +1,59 @@
 package com.company.doll;
 
+import com.company.GrindInventory;
+import com.company.Inventory;
+import com.company.items.AllItems;
 import com.company.items.Item;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileDoll implements Doll {
     String nameHero;
     Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
-    public FileDoll(Doll doll){
+    public FileDoll(List<String> listItem, GrindInventory inv, Doll doll) throws FileNotFoundException {
         this.doll = doll;
+
+        for (int j = 0; j < listItem.size(); j++) {
+            for (int i = 0; i < inv.items().size(); i++) {
+                boolean cont = listItem.get(j).contains(inv.items().get(i).name);
+                if (cont) {
+                    doll.putOn(inv.items().get(i));
+                    break;
+                }
+            }
+        }
     }
+
+    public FileDoll(String fileName, AllItems inv, Doll doll ) throws IOException {
+        this.doll = doll;
+
+        File file = new File(fileName);
+        if (!file.exists()) {
+            System.out.println("no");
+        }else {
+            InputStream inputStream = new FileInputStream(file);
+            Reader reader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            List<String> strings = bufferedReader.lines().collect(Collectors.toList());
+            inputStream.close();
+
+            for (int j = 0; j < strings.size(); j++) {
+                for (int i = 0; i < inv.itemsList().size(); i++) {
+                    boolean cont = strings.get(j).contains(inv.itemsList().get(i).name);
+                    if (cont) {
+                        doll.putOn(inv.itemsList().get(i));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public List<Item> items(){
         return doll.items();
@@ -24,44 +61,14 @@ public class FileDoll implements Doll {
     @Override
     public void putOn(Item item) throws FileNotFoundException {
         doll.putOn(item);
-        OutputStream outputStream = new FileOutputStream("FileDoll");
-        PrintWriter writer = new PrintWriter(outputStream);
-        List<String> categoryList = new ArrayList<>();
-        categoryList.add("Голова");
-        categoryList.add("Туловище");
-        categoryList.add("Ноги");
-        categoryList.add("Оружие");
-        for (int a = 0; a < doll.items().size(); a++) {
-            if (doll.items().get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + doll.items().get(a).name);
-            } else {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
-            }
-        }
-        writer.close();
     }
     @Override
     public Item takeOff(int category) throws FileNotFoundException {
-        Item item = doll.takeOff(category);
-        OutputStream outputStream = new FileOutputStream("FileDoll");
-        PrintWriter writer = new PrintWriter(outputStream);
-        List<String> categoryList = new ArrayList<>();
-        categoryList.add("Голова");
-        categoryList.add("Туловище");
-        categoryList.add("Ноги");
-        categoryList.add("Оружие");
-        for (int a = 0; a < doll.items().size(); a++) {
-            if (doll.items().get(a) != null) {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + doll.items().get(a).name);
-            } else {
-                writer.println(a + 1 + ") " + categoryList.get(a) + " - " + "Ничего не надето.");
-            }
-        }
-        writer.close();
-        return item;
+        return doll.takeOff(category);
     }
     @Override
     public boolean isOn(int category) {
         return doll.isOn(category);
     }
+
 }
