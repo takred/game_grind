@@ -160,10 +160,5 @@ public class NakedGrindCharacter implements GrindCharacter {
 
     @Override
     public void writeInFile() throws IOException {
-//        OutputStream outputStream = new  FileOutputStream("CharacterGarm.txt");
-//        PrintWriter writer = new PrintWriter(outputStream);
-//        writer.println("\"" +  name() + "\"," + maxHp() + "," + hp() + "," + minStr() +
-//                "," + maxStr() + "," + lvl() + "," + nextLvl() + "," + exp() + "," + perkDoubleAttack());
-//        outputStream.close();
     }
 }

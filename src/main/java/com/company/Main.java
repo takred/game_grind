@@ -4,10 +4,7 @@ import com.company.character.EquipedCharacter;
 import com.company.character.GrindCharacter;
 import com.company.character.NakedGrindCharacter;
 import com.company.character.PersistentGrindCharacter;
-import com.company.doll.Doll;
-import com.company.doll.PersistentDoll;
-import com.company.doll.InventoryDollCopy;
-import com.company.doll.FileDoll;
+import com.company.doll.*;
 import com.company.items.AllItems;
 import com.company.items.Item;
 
@@ -213,7 +210,8 @@ public class Main {
         GrindInventory invGarm = new PersistentInventory(createInv);
 
         Doll originalDoll = new InventoryDollCopy();
-        Doll createDoll = new FileDoll("PersistentDoll", allItems, originalDoll);
+        Doll logDoll = new ChangelogDoll(originalDoll);
+        Doll createDoll = new FileDoll("PersistentDoll", allItems, logDoll);
         Doll equipInvGarm = new PersistentDoll(createDoll);
 
         GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);

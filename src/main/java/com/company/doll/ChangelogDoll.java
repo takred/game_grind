@@ -22,22 +22,29 @@ public class ChangelogDoll implements Doll {
     @Override
     public void putOn(Item item) throws FileNotFoundException {
         doll.putOn(item);
-        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
-        PrintWriter writer = new PrintWriter(outputStream);
-        writer.println("Экипирован предмет : " + item.name);
-        writer.close();
+        putOnLog(item);
     }
     @Override
     public Item takeOff(int category) throws FileNotFoundException {
         Item item = doll.takeOff(category);
-        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
-        PrintWriter writer = new PrintWriter(outputStream);
-        writer.println("Снят предмет : " + item.name);
-        writer.close();
+        takeOffLog(item);
         return item;
     }
     @Override
     public boolean isOn(int category) {
         return doll.isOn(category);
+    }
+
+    public void putOnLog(Item item) throws FileNotFoundException {
+        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
+        PrintWriter writer = new PrintWriter(outputStream);
+        writer.println("Экипирован предмет : " + item.name);
+        writer.close();
+    }
+    public void takeOffLog(Item item) throws FileNotFoundException {
+        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
+        PrintWriter writer = new PrintWriter(outputStream);
+        writer.println("Снят предмет : " + item.name);
+        writer.close();
     }
 }
