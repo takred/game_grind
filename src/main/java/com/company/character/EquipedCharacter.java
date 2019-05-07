@@ -139,4 +139,10 @@ public class EquipedCharacter implements GrindCharacter {
     public List<WeightDrop> itemDrop() {
         return itemDrop();
     }
+
+    @Override
+    public void writeInFile() {
+
+    }
+
 }

@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.items.Item;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface GrindInventory {
@@ -12,7 +13,7 @@ public interface GrindInventory {
 
     List<Item> items();
 
-    void add(Item item);
+    void add(Item item) throws FileNotFoundException;
 
-    Item take(int slot);
+    Item take(int slot) throws FileNotFoundException;
 }

@@ -3,10 +3,8 @@ package com.company;
 import com.company.character.EquipedCharacter;
 import com.company.character.GrindCharacter;
 import com.company.character.NakedGrindCharacter;
-import com.company.doll.Doll;
-import com.company.doll.FileDoll;
-import com.company.doll.InventoryDollCopy;
-import com.company.doll.StringDoll;
+import com.company.character.PersistentGrindCharacter;
+import com.company.doll.*;
 import com.company.items.AllItems;
 import com.company.items.Item;
 
@@ -202,16 +200,22 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("saves/Garm/Character.txt");
+
+        AllItems allItems = new AllItems("AllItems.txt");
+
         GrindInventory inventory = new Inventory();
-        GrindInventory invGarm = new FileInventory("GarmInventory.txt", inventory);
-//        Inventory invGarm = new Inventory("Гарм");
+        GrindInventory createInv = new FileInventory("saves/Garm/Inventory.txt", inventory);
+        GrindInventory invGarm = new PersistentInventory(createInv);
 
         Doll originalDoll = new InventoryDollCopy();
-        Doll doll = new StringDoll("FileDoll", invGarm, originalDoll);
-        Doll equipInvGarm = new FileDoll(doll);
+        Doll logDoll = new ChangelogDoll(originalDoll);
+        Doll createDoll = new FileDoll("saves/Garm/PersistentDoll.txt", allItems, logDoll);
+        Doll equipInvGarm = new PersistentDoll(createDoll);
 
         GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+        GrindCharacter saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
 
         AllMonsters allMonsters = monsterList();
 
@@ -226,7 +230,7 @@ public class Main {
             NakedGrindCharacter allMonster = allMonsters.monstersList().get(i);
             countKill.put(allMonster.name(), 0);
         }
-        AllItems allItems = new AllItems("AllItems.txt");
+
 
         while (true) {
             if (equipedHeroGarm.hp() > 0) {
@@ -305,6 +309,7 @@ public class Main {
                     }
                 }
                 else if (switcherMode == 4) {
+                    saveNakedHeroGarm.writeInFile();
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
                 }

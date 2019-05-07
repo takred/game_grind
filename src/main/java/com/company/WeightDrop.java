@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.items.Item;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,7 +15,7 @@ public class WeightDrop {
         this.weight = weight;
     }
 
-    static void collect (GrindInventory inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops){
+    static void collect (GrindInventory inventHero, List<Item> allItems, List<WeightDrop> monsterItemDrops) throws FileNotFoundException {
         if (monsterItemDrops.size() > 0) {
         int drop = ThreadLocalRandom.current().nextInt(1, 100);
         if (drop <= 10) {

@@ -2,6 +2,7 @@ package com.company.doll;
 
 import com.company.GrindInventory;
 import com.company.Inventory;
+import com.company.items.AllItems;
 import com.company.items.Item;
 
 import java.io.*;
@@ -9,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StringDoll implements Doll {
+public class FileDoll implements Doll {
     String nameHero;
     Doll doll;
     private List<Item> equippedItem = new ArrayList<>();
 
-    public StringDoll (List<String> listItem, GrindInventory inv, Doll doll) throws FileNotFoundException {
+    public FileDoll(List<String> listItem, GrindInventory inv, Doll doll) throws FileNotFoundException {
         this.doll = doll;
 
         for (int j = 0; j < listItem.size(); j++) {
@@ -28,7 +29,7 @@ public class StringDoll implements Doll {
         }
     }
 
-    public StringDoll(String fileName, GrindInventory inv, Doll doll ) throws IOException {
+    public FileDoll(String fileName, AllItems inv, Doll doll ) throws IOException {
         this.doll = doll;
 
         File file = new File(fileName);
@@ -42,10 +43,10 @@ public class StringDoll implements Doll {
             inputStream.close();
 
             for (int j = 0; j < strings.size(); j++) {
-                for (int i = 0; i < inv.items().size(); i++) {
-                    boolean cont = strings.get(j).contains(inv.items().get(i).name);
+                for (int i = 0; i < inv.itemsList().size(); i++) {
+                    boolean cont = strings.get(j).contains(inv.itemsList().get(i).name);
                     if (cont) {
-                        doll.putOn(inv.items().get(i));
+                        doll.putOn(inv.itemsList().get(i));
                         break;
                     }
                 }
