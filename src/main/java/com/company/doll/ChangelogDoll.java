@@ -36,13 +36,13 @@ public class ChangelogDoll implements Doll {
     }
 
     public void putOnLog(Item item) throws FileNotFoundException {
-        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
+        OutputStream outputStream = new FileOutputStream("saves/Garm/ChangelogDoll.txt", true);
         PrintWriter writer = new PrintWriter(outputStream);
         writer.println("Экипирован предмет : " + item.name);
         writer.close();
     }
     public void takeOffLog(Item item) throws FileNotFoundException {
-        OutputStream outputStream = new FileOutputStream("ChangelogDoll", true);
+        OutputStream outputStream = new FileOutputStream("saves/Garm/ChangelogDoll.txt", true);
         PrintWriter writer = new PrintWriter(outputStream);
         writer.println("Снят предмет : " + item.name);
         writer.close();

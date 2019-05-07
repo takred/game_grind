@@ -41,7 +41,7 @@ public class PersistentInventory implements GrindInventory {
         return itemInSlot;
     }
     public void writeInFile() throws FileNotFoundException {
-        OutputStream outputStream = new FileOutputStream("GarmInventory.txt");
+        OutputStream outputStream = new FileOutputStream("Inventory.txt");
         PrintWriter printWriter = new PrintWriter(outputStream);
         printWriter.println(grindInventory.nameHero());
         for (int i = 0; i < grindInventory.items().size(); i++) {
