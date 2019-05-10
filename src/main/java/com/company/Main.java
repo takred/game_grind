@@ -10,6 +10,7 @@ import com.company.items.Item;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster) {
@@ -221,13 +222,33 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Выберите действие : 1 - Создать нового персонажа; 2 - Загрузить персонажа.");
-        int loadHero = scanner.nextInt();
-        String saveName = "";
-        if (loadHero == 1){
-            saveName = createNewHero();
-        }else {
-
+        String saveName;
+        while (true) {
+            System.out.println("Выберите действие : 1 - Создать нового персонажа; 2 - Загрузить персонажа.");
+            int loadHero = scanner.nextInt();
+            if (loadHero == 1) {
+                saveName = createNewHero();
+                break;
+            } else {
+                File savesDir = new File("saves");
+                if (!savesDir.isDirectory()) {
+                    System.out.println("Сохранений нет.");
+                } else {
+                    File[] saves = savesDir.listFiles();
+                    System.out.println("Выберите сохранение, которое хотите загрузить :");
+                    for (int i = 0; i < saves.length; i++) {
+                        System.out.println(i + 1 + " - " + saves[i].getName());
+                    }
+                    int numberLoad = scanner.nextInt();
+                    saveName = saves[numberLoad - 1].getName();
+                    break;
+                }
+//            InputStream inputStream = new FileInputStream("saves");
+//            Reader reader = new InputStreamReader(inputStream);
+//            BufferedReader bufferedReader = new BufferedReader(reader);
+//            List<String> variationLoad = bufferedReader.lines().collect(Collectors.toList());
+//            inputStream.close();
+            }
         }
 //        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
         GrindCharacter nakedHeroGarm = new NakedGrindCharacter("saves/"+ saveName +"/Character.txt");
