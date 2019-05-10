@@ -16,4 +16,6 @@ public interface GrindInventory {
     void add(Item item) throws FileNotFoundException;
 
     Item take(int slot) throws FileNotFoundException;
+
+    void writeInFile(String saveName) throws FileNotFoundException;
 }

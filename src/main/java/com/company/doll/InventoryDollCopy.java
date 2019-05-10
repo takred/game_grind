@@ -2,6 +2,7 @@ package com.company.doll;
 
 import com.company.items.Item;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +14,8 @@ public class InventoryDollCopy implements Doll {
     Item legs;
     Item weapon;
 
-    public InventoryDollCopy() {
+    public InventoryDollCopy(String nameHero) {
+        this.nameHero = nameHero;
         head = null;
         torso = null;
         legs = null;
@@ -71,5 +73,9 @@ public class InventoryDollCopy implements Doll {
             item = weapon;
         }
         return item == null;
+    }
+
+    @Override
+    public void writeInFile(String saveName){
     }
 }

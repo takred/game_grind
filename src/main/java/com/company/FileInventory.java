@@ -68,4 +68,7 @@ public class FileInventory implements GrindInventory {
     public Item take(int slot) throws FileNotFoundException {
         return heroInv.take(slot);
     }
+
+    @Override
+    public void writeInFile(String saveName) throws FileNotFoundException { }
 }

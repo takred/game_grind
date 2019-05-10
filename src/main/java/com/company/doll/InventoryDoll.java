@@ -2,6 +2,7 @@ package com.company.doll;
 
 import com.company.items.Item;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,5 +34,9 @@ public class InventoryDoll implements Doll {
     @Override
     public boolean isOn(int category) {
         return equippedItem.get(category) == null;
+    }
+
+    @Override
+    public void writeInFile(String saveName) {
     }
 }

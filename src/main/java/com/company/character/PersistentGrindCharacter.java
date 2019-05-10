@@ -118,8 +118,8 @@ public class PersistentGrindCharacter implements GrindCharacter {
         return hero.itemDrop();
     }
 
-    public void writeInFile() throws IOException {
-        OutputStream outputStream = new  FileOutputStream("saves/Garm/Character.txt");
+    public void writeInFile(String saveName) throws IOException {
+        OutputStream outputStream = new  FileOutputStream("saves/"+ saveName +"/Character.txt");
         PrintWriter writer = new PrintWriter(outputStream);
         writer.println("\"" +  hero.name() + "\"," + hero.maxHp() + "," + hero.hp() + "," + hero.minStr() +
                 "," + hero.maxStr() + "," + hero.lvl() + "," + hero.nextLvl() + "," + hero.exp() + "," + hero.perkDoubleAttack());
