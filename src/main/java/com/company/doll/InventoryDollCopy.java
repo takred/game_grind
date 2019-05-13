@@ -75,7 +75,7 @@ public class InventoryDollCopy implements Doll {
         return item == null;
     }
 
-    @Override
+
     public void writeInFile(String saveName){
     }
 }

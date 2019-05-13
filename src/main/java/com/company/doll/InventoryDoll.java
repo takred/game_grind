@@ -36,7 +36,7 @@ public class InventoryDoll implements Doll {
         return equippedItem.get(category) == null;
     }
 
-    @Override
+
     public void writeInFile(String saveName) {
     }
 }

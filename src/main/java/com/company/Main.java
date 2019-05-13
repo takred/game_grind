@@ -204,8 +204,9 @@ public class Main {
         String saveName = scanner.nextLine();
         System.out.println(saveName);
         File newDir = new File("saves/" + saveName);
-        if(!newDir.exists())
-        newDir.mkdir();
+        if (!newDir.exists()) {
+            newDir.mkdir();
+        }
         System.out.println("Введите имя персонажа.");
 //        new File ("saves/" + saveName + "/Character.txt");
         GrindCharacter nakedHero = new NakedGrindCharacter();
@@ -360,7 +361,7 @@ public class Main {
                 else if (switcherMode == 4) {
                     saveNakedHeroGarm.writeInFile(saveName);
                     invGarm.writeInFile(saveName);
-                    equipInvGarm.writeInFile(saveName);
+                    ((PersistentDoll) equipInvGarm).writeInFile(saveName);
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
                 }

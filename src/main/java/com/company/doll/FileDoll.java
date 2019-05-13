@@ -35,7 +35,7 @@ public class FileDoll implements Doll {
         File file = new File("saves/" + saveName + "/" + fileName);
         if (!file.exists()) {
             System.out.println("no");
-        }else {
+        } else {
             InputStream inputStream = new FileInputStream(file);
             Reader reader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -71,7 +71,7 @@ public class FileDoll implements Doll {
         return doll.isOn(category);
     }
 
-    @Override
+
     public void writeInFile(String saveName){
     }
 

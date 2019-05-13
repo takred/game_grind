@@ -15,5 +15,5 @@ public interface Doll {
 
     boolean isOn(int category);
 
-    void writeInFile(String saveName) throws IOException;
+
 }
