@@ -41,6 +41,10 @@ public class PersistentInventory implements GrindInventory {
         return itemInSlot;
     }
     public void writeInFile(String saveName) throws FileNotFoundException {
+        File savePath = new File("saves/" + saveName);
+        if (!savePath.exists()){
+            savePath.mkdir();
+        }
         OutputStream outputStream = new FileOutputStream("saves/" + saveName + "/Inventory.txt");
         PrintWriter printWriter = new PrintWriter(outputStream);
         printWriter.println(grindInventory.nameHero());

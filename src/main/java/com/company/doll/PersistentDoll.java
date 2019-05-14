@@ -35,6 +35,10 @@ public class PersistentDoll implements Doll {
     }
 
     public void writeInFile(String saveName) throws IOException {
+        File savePath = new File("saves/" + saveName);
+        if (!savePath.exists()){
+            savePath.mkdir();
+        }
         OutputStream outputStream = new FileOutputStream("saves/" + saveName + "/PersistentDoll.txt");
         PrintWriter writer = new PrintWriter(outputStream);
         List<String> categoryList = new ArrayList<>();

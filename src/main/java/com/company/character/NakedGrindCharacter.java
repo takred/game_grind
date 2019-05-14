@@ -72,6 +72,7 @@ public class NakedGrindCharacter implements GrindCharacter {
 
     public NakedGrindCharacter(){
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя персонажа.");
         name = scanner.nextLine();
         maxHp = 100;
         hp = 100;

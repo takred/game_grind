@@ -44,6 +44,10 @@ public class FileInventory implements GrindInventory {
         }
     }
 
+    public FileInventory(GrindInventory heroInv){
+        this.heroInv = heroInv;
+    }
+
     @Override
     public String nameHero() {
         return heroInv.nameHero();

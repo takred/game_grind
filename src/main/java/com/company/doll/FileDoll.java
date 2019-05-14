@@ -54,6 +54,10 @@ public class FileDoll implements Doll {
         }
     }
 
+    public FileDoll(Doll doll) {
+        this.doll = doll;
+    }
+
     @Override
     public List<Item> items(){
         return doll.items();

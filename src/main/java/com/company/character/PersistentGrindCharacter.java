@@ -119,6 +119,10 @@ public class PersistentGrindCharacter implements GrindCharacter {
     }
 
     public void writeInFile(String saveName) throws IOException {
+        File savePath = new File("saves/" + saveName);
+        if (!savePath.exists()){
+            savePath.mkdir();
+        }
         OutputStream outputStream = new  FileOutputStream("saves/"+ saveName +"/Character.txt");
         PrintWriter writer = new PrintWriter(outputStream);
         writer.println("\"" +  hero.name() + "\"," + hero.maxHp() + "," + hero.hp() + "," + hero.minStr() +

@@ -223,12 +223,43 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String saveName;
+        String saveName = "";
+        GrindCharacter nakedHeroGarm;
+
+        GrindInventory inventory;
+        GrindInventory createInv;
+        GrindInventory invGarm = null;
+
+        Doll originalDoll;
+        Doll createDoll;
+        Doll equipInvGarm = null;
+
+        GrindCharacter equipedHeroGarm = null;
+        GrindCharacter saveNakedHeroGarm = null;
+
+        AllMonsters allMonsters = monsterList();
+        AllItems allItems = new AllItems("AllItems.txt");
+
         while (true) {
             System.out.println("Выберите действие : 1 - Создать нового персонажа; 2 - Загрузить персонажа.");
             int loadHero = scanner.nextInt();
             if (loadHero == 1) {
-                saveName = createNewHero();
+                System.out.println("Напишите название сохранения.");
+                saveName = scanner.nextLine();
+
+                nakedHeroGarm = new NakedGrindCharacter();
+
+                inventory = new Inventory();
+                createInv = new FileInventory(inventory);
+                invGarm = new PersistentInventory(createInv);
+
+                originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
+//        Doll logDoll = new ChangelogDoll(originalDoll);
+                createDoll = new FileDoll(originalDoll);
+                equipInvGarm = new PersistentDoll(createDoll);
+
+                equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+                saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
                 break;
             } else {
                 File savesDir = new File("saves");
@@ -249,26 +280,22 @@ public class Main {
 //            BufferedReader bufferedReader = new BufferedReader(reader);
 //            List<String> variationLoad = bufferedReader.lines().collect(Collectors.toList());
 //            inputStream.close();
+//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+                nakedHeroGarm = new NakedGrindCharacter("saves/" + saveName + "/Character.txt");
+
+                inventory = new Inventory();
+                createInv = new FileInventory("saves/" + saveName + "/Inventory.txt", inventory);
+                invGarm = new PersistentInventory(createInv);
+
+                originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
+//        Doll logDoll = new ChangelogDoll(originalDoll);
+                createDoll = new FileDoll("saves/" + saveName + "/PersistentDoll.txt", saveName, allItems, originalDoll);
+                equipInvGarm = new PersistentDoll(createDoll);
+
+                equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+                saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
             }
         }
-//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
-        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("saves/"+ saveName +"/Character.txt");
-
-        AllItems allItems = new AllItems("AllItems.txt");
-
-        GrindInventory inventory = new Inventory();
-        GrindInventory createInv = new FileInventory("saves/" + saveName +"/Inventory.txt", inventory);
-        GrindInventory invGarm = new PersistentInventory(createInv);
-
-        Doll originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
-//        Doll logDoll = new ChangelogDoll(originalDoll);
-        Doll createDoll = new FileDoll("saves/"+ saveName +"/PersistentDoll.txt", saveName , allItems, originalDoll);
-        Doll equipInvGarm = new PersistentDoll(createDoll);
-
-        GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
-        GrindCharacter saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
-
-        AllMonsters allMonsters = monsterList();
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
