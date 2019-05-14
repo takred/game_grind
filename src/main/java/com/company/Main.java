@@ -228,14 +228,14 @@ public class Main {
 
         GrindInventory inventory;
         GrindInventory createInv;
-        GrindInventory invGarm = null;
+        GrindInventory invGarm;
 
         Doll originalDoll;
         Doll createDoll;
-        Doll equipInvGarm = null;
+        Doll equipInvGarm;
 
-        GrindCharacter equipedHeroGarm = null;
-        GrindCharacter saveNakedHeroGarm = null;
+        GrindCharacter equipedHeroGarm;
+        GrindCharacter saveNakedHeroGarm;
 
         AllMonsters allMonsters = monsterList();
         AllItems allItems = new AllItems("AllItems.txt");
@@ -245,11 +245,14 @@ public class Main {
             int loadHero = scanner.nextInt();
             if (loadHero == 1) {
                 System.out.println("Напишите название сохранения.");
+                scanner.nextLine();
                 saveName = scanner.nextLine();
 
-                nakedHeroGarm = new NakedGrindCharacter();
+                System.out.println("Введите имя персонажа.");
+                String nameHero = scanner.nextLine();
+                nakedHeroGarm = new NakedGrindCharacter(nameHero, 100, 100, 8, 11, 1, 10, 0, false);
 
-                inventory = new Inventory();
+                inventory = new Inventory(nameHero);
                 createInv = new FileInventory(inventory);
                 invGarm = new PersistentInventory(createInv);
 
@@ -273,7 +276,6 @@ public class Main {
                     }
                     int numberLoad = scanner.nextInt();
                     saveName = saves[numberLoad - 1].getName();
-                    break;
                 }
 //            InputStream inputStream = new FileInputStream("saves");
 //            Reader reader = new InputStreamReader(inputStream);
@@ -289,11 +291,12 @@ public class Main {
 
                 originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
 //        Doll logDoll = new ChangelogDoll(originalDoll);
-                createDoll = new FileDoll("saves/" + saveName + "/PersistentDoll.txt", saveName, allItems, originalDoll);
+                createDoll = new FileDoll("/PersistentDoll.txt", saveName, allItems, originalDoll);
                 equipInvGarm = new PersistentDoll(createDoll);
 
                 equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
                 saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
+                break;
             }
         }
 

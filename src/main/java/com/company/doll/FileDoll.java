@@ -32,7 +32,7 @@ public class FileDoll implements Doll {
     public FileDoll(String fileName, String saveName , AllItems inv, Doll doll ) throws IOException {
         this.doll = doll;
 
-        File file = new File("saves/" + saveName + "/" + fileName);
+        File file = new File("saves/" + saveName + fileName);
         if (!file.exists()) {
             System.out.println("no");
         } else {
