@@ -31,17 +31,21 @@ public class PersistentInventory implements GrindInventory {
     @Override
     public void add(Item item) throws FileNotFoundException {
         grindInventory.add(item);
-        writeInFile();
+//        writeInFile();
     }
 
     @Override
     public Item take(int slot) throws FileNotFoundException {
         Item itemInSlot = grindInventory.take(slot);
-        writeInFile();
+//        writeInFile();
         return itemInSlot;
     }
-    public void writeInFile() throws FileNotFoundException {
-        OutputStream outputStream = new FileOutputStream("Inventory.txt");
+    public void writeInFile(String saveName) throws FileNotFoundException {
+        File savePath = new File("saves/" + saveName);
+        if (!savePath.exists()){
+            savePath.mkdir();
+        }
+        OutputStream outputStream = new FileOutputStream("saves/" + saveName + "/Inventory.txt");
         PrintWriter printWriter = new PrintWriter(outputStream);
         printWriter.println(grindInventory.nameHero());
         for (int i = 0; i < grindInventory.items().size(); i++) {

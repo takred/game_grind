@@ -5,6 +5,7 @@ import com.company.character.GrindCharacter;
 
 import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -69,7 +70,19 @@ public class NakedGrindCharacter implements GrindCharacter {
         perkDoubleAttack = Boolean.valueOf(string.substring(borderExp + 1));
     }
 
-    public NakedGrindCharacter(){}
+    public NakedGrindCharacter(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите имя персонажа.");
+        name = scanner.nextLine();
+        maxHp = 100;
+        hp = 100;
+        minStr = 8;
+        maxStr = 11;
+        lvl = 1;
+        nextLvl = 10;
+        exp = 0;
+        perkDoubleAttack = false;
+    }
 
     public int currentDamage() {
         if (minStr != maxStr) {
@@ -159,6 +172,6 @@ public class NakedGrindCharacter implements GrindCharacter {
     }
 
     @Override
-    public void writeInFile() throws IOException {
+    public void writeInFile(String saveName) throws IOException {
     }
 }

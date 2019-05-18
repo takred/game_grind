@@ -1,7 +1,6 @@
 package com.company.doll;
 
 import com.company.GrindInventory;
-import com.company.Inventory;
 import com.company.items.AllItems;
 import com.company.items.Item;
 
@@ -29,13 +28,13 @@ public class FileDoll implements Doll {
         }
     }
 
-    public FileDoll(String fileName, AllItems inv, Doll doll ) throws IOException {
+    public FileDoll(String fileName, String saveName , AllItems inv, Doll doll ) throws IOException {
         this.doll = doll;
 
-        File file = new File(fileName);
+        File file = new File("saves/" + saveName + "/" + fileName);
         if (!file.exists()) {
             System.out.println("no");
-        }else {
+        } else {
             InputStream inputStream = new FileInputStream(file);
             Reader reader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -69,6 +68,10 @@ public class FileDoll implements Doll {
     @Override
     public boolean isOn(int category) {
         return doll.isOn(category);
+    }
+
+
+    public void writeInFile(String saveName){
     }
 
 }

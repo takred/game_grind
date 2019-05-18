@@ -44,6 +44,10 @@ public class FileInventory implements GrindInventory {
         }
     }
 
+    public FileInventory(GrindInventory heroInv){
+        this.heroInv = heroInv;
+    }
+
     @Override
     public String nameHero() {
         return heroInv.nameHero();
@@ -68,4 +72,7 @@ public class FileInventory implements GrindInventory {
     public Item take(int slot) throws FileNotFoundException {
         return heroInv.take(slot);
     }
+
+    @Override
+    public void writeInFile(String saveName) throws FileNotFoundException { }
 }

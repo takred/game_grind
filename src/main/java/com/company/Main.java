@@ -8,8 +8,9 @@ import com.company.doll.*;
 import com.company.items.AllItems;
 import com.company.items.Item;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster) {
@@ -197,27 +198,106 @@ public class Main {
             System.out.println("Увеличение максимального порога урона - " + itemByIndex.plusMaxStr);
         }
     }
+    static String createNewHero() throws IOException {
+        Scanner scanner = new  Scanner(System.in);
+        System.out.println("Напишите название сохранения.");
+        String saveName = scanner.nextLine();
+        System.out.println(saveName);
+        File newDir = new File("saves/" + saveName);
+        if (!newDir.exists()) {
+            newDir.mkdir();
+        }
+        System.out.println("Введите имя персонажа.");
+//        new File ("saves/" + saveName + "/Character.txt");
+        GrindCharacter nakedHero = new NakedGrindCharacter();
+        GrindCharacter saveHero = new PersistentGrindCharacter(nakedHero);
+        saveHero.writeInFile(saveName);
+        GrindInventory inv = new Inventory(nakedHero.name());
+        GrindInventory saveInv = new PersistentInventory(inv);
+        saveInv.writeInFile(saveName);
+        OutputStream equipedInv = new FileOutputStream("saves/" + saveName + "/PersistentDoll.txt");
+        equipedInv.close();
+//        new File ("saves/" + saveName + "/PersistentDoll.txt");
+        return saveName;
+    }
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
-        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("saves/Garm/Character.txt");
+        String saveName = "";
+        GrindCharacter nakedHeroGarm;
 
-        AllItems allItems = new AllItems("AllItems.txt");
+        GrindInventory inventory;
+        GrindInventory createInv;
+        GrindInventory invGarm;
 
-        GrindInventory inventory = new Inventory();
-        GrindInventory createInv = new FileInventory("saves/Garm/Inventory.txt", inventory);
-        GrindInventory invGarm = new PersistentInventory(createInv);
+        Doll originalDoll;
+        Doll createDoll;
+        Doll equipInvGarm;
 
-        Doll originalDoll = new InventoryDollCopy();
-        Doll logDoll = new ChangelogDoll(originalDoll);
-        Doll createDoll = new FileDoll("saves/Garm/PersistentDoll.txt", allItems, logDoll);
-        Doll equipInvGarm = new PersistentDoll(createDoll);
-
-        GrindCharacter equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
-        GrindCharacter saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
+        GrindCharacter equipedHeroGarm;
+        GrindCharacter saveNakedHeroGarm;
 
         AllMonsters allMonsters = monsterList();
+        AllItems allItems = new AllItems("AllItems.txt");
+
+        while (true) {
+            System.out.println("Выберите действие : 1 - Создать нового персонажа; 2 - Загрузить персонажа.");
+            int loadHero = scanner.nextInt();
+            if (loadHero == 1) {
+                System.out.println("Напишите название сохранения.");
+                scanner.nextLine();
+                saveName = scanner.nextLine();
+
+                System.out.println("Введите имя персонажа.");
+                String nameHero = scanner.nextLine();
+                nakedHeroGarm = new NakedGrindCharacter(nameHero, 100, 100, 8, 11, 1, 10, 0, false);
+
+                inventory = new Inventory(nameHero);
+                createInv = new FileInventory(inventory);
+                invGarm = new PersistentInventory(createInv);
+
+                originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
+//        Doll logDoll = new ChangelogDoll(originalDoll);
+                equipInvGarm = new PersistentDoll(originalDoll);
+
+                equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+                saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
+                break;
+            } else {
+                File savesDir = new File("saves");
+                if (!savesDir.isDirectory()) {
+                    System.out.println("Сохранений нет.");
+                } else {
+                    File[] saves = savesDir.listFiles();
+                    System.out.println("Выберите сохранение, которое хотите загрузить :");
+                    for (int i = 0; i < saves.length; i++) {
+                        System.out.println(i + 1 + " - " + saves[i].getName());
+                    }
+                    int numberLoad = scanner.nextInt();
+                    saveName = saves[numberLoad - 1].getName();
+                }
+//            InputStream inputStream = new FileInputStream("saves");
+//            Reader reader = new InputStreamReader(inputStream);
+//            BufferedReader bufferedReader = new BufferedReader(reader);
+//            List<String> variationLoad = bufferedReader.lines().collect(Collectors.toList());
+//            inputStream.close();
+//        GrindCharacter nakedHeroGarm = new NakedGrindCharacter("Гарм", 100, 100, 8, 11, 1, 10, 0, false);
+                nakedHeroGarm = new NakedGrindCharacter("saves/" + saveName + "/Character.txt");
+
+                inventory = new Inventory();
+                createInv = new FileInventory("saves/" + saveName + "/Inventory.txt", inventory);
+                invGarm = new PersistentInventory(createInv);
+
+                originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
+//        Doll logDoll = new ChangelogDoll(originalDoll);
+                createDoll = new FileDoll("PersistentDoll.txt", saveName, allItems, originalDoll);
+                equipInvGarm = new PersistentDoll(createDoll);
+
+                equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
+                saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
+                break;
+            }
+        }
 
         List<String> category = new ArrayList<>();
         category.add("Голова");
@@ -230,7 +310,6 @@ public class Main {
             NakedGrindCharacter allMonster = allMonsters.monstersList().get(i);
             countKill.put(allMonster.name(), 0);
         }
-
 
         while (true) {
             if (equipedHeroGarm.hp() > 0) {
@@ -309,7 +388,9 @@ public class Main {
                     }
                 }
                 else if (switcherMode == 4) {
-                    saveNakedHeroGarm.writeInFile();
+                    saveNakedHeroGarm.writeInFile(saveName);
+                    invGarm.writeInFile(saveName);
+                    ((PersistentDoll) equipInvGarm).writeInFile(saveName);
                     System.out.println("Вы отступили. За сессию вы убили:");
                     break;
                 }

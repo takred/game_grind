@@ -141,8 +141,6 @@ public class EquipedCharacter implements GrindCharacter {
     }
 
     @Override
-    public void writeInFile() {
-
-    }
+    public void writeInFile(String saveName) {}
 
 }

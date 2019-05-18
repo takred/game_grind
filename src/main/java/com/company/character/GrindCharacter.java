@@ -49,5 +49,5 @@ public interface GrindCharacter {
 
     List<WeightDrop> itemDrop();
 
-    void writeInFile() throws IOException;
+    void writeInFile(String saveName) throws IOException;
 }

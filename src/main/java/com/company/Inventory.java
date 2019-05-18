@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.items.Item;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +45,11 @@ public class Inventory implements GrindInventory {
         Item item = inv.get(slot);
         inv.remove(slot);
         return item;
+    }
+
+    @Override
+    public void writeInFile(String saveName) throws FileNotFoundException {
+
     }
 }
 
