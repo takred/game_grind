@@ -258,8 +258,7 @@ public class Main {
 
                 originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
 //        Doll logDoll = new ChangelogDoll(originalDoll);
-                createDoll = new FileDoll(originalDoll);
-                equipInvGarm = new PersistentDoll(createDoll);
+                equipInvGarm = new PersistentDoll(originalDoll);
 
                 equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
                 saveNakedHeroGarm = new PersistentGrindCharacter(nakedHeroGarm);
@@ -291,7 +290,7 @@ public class Main {
 
                 originalDoll = new InventoryDollCopy(nakedHeroGarm.name());
 //        Doll logDoll = new ChangelogDoll(originalDoll);
-                createDoll = new FileDoll("/PersistentDoll.txt", saveName, allItems, originalDoll);
+                createDoll = new FileDoll("PersistentDoll.txt", saveName, allItems, originalDoll);
                 equipInvGarm = new PersistentDoll(createDoll);
 
                 equipedHeroGarm = new EquipedCharacter(equipInvGarm, nakedHeroGarm);
