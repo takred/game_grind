@@ -24,15 +24,15 @@ import java.io.OutputStream;
 import java.util.*;
 
 public class ThirdMain {
-    static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster) {
+    static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster, TextGraphics tGraphics, Screen screen) throws IOException {
         for (int i = 0; i < 1000; i++) {
-            boolean resultHeroAttack = heroAttack(equipedHero, monster);
+            boolean resultHeroAttack = heroAttack(equipedHero, monster, tGraphics, screen);
             if (resultHeroAttack) {
                 return 0;
             }
             if(equipedHero.perkDoubleAttack()){
                 System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
-                resultHeroAttack = heroAttack(equipedHero, monster);
+                resultHeroAttack = heroAttack(equipedHero, monster, tGraphics, screen);
                 if (resultHeroAttack){
                     return 0;
                 }
@@ -45,13 +45,17 @@ public class ThirdMain {
         return 2;
     }
 
-    static GrindCharacter lvlUp(GrindCharacter hero) {
+    static GrindCharacter lvlUp(GrindCharacter hero, TextGraphics tGraphics, Screen screen) throws IOException {
         hero.increaseLvl();
         if (hero.lvl() % 4 == 0 && hero.lvl() != 32) {
-            System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
+            tGraphics.putString(10, 11, "Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
                     " 2 - увеличить минимальнй порог урона на 2; 3 - увеличить максимальный порог урона на 2;");
+            screen.refresh();
+//            System.out.println("Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
+//                    " 2 - увеличить минимальнй порог урона на 2; 3 - увеличить максимальный порог урона на 2;");
             Scanner scanner = new Scanner(System.in);
-            int choice = scanner.nextInt();
+            int choice = Integer.valueOf("" + screen.readInput().getCharacter());
+//            int choice = scanner.nextInt();
             if (choice == 1) {
                 hero.increaseMaxHp(20);
             } else if (choice == 2) {
@@ -81,7 +85,7 @@ public class ThirdMain {
         System.out.println("Вы отдохнули.");
     }
 
-    static boolean heroAttack(GrindCharacter equipedHero, NakedGrindCharacter monster) {
+    static boolean heroAttack(GrindCharacter equipedHero, NakedGrindCharacter monster, TextGraphics tGraphics, Screen screen) throws IOException {
         int currentDamageHero = equipedHero.currentDamage();
         if (monster.hp() - currentDamageHero > 0) {
             monster.decreaseHp(currentDamageHero);
@@ -94,8 +98,11 @@ public class ThirdMain {
             monster.increaseHp(monster.maxHp());
             System.out.println("Вы получили " + monster.exp() + " опыта.");
             if (equipedHero.exp() >= equipedHero.nextLvl()) {
-                System.out.println("Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
-                lvlUp(equipedHero);
+                screen.clear();
+                tGraphics.putString(10, 10, "Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
+//                System.out.println("Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
+                lvlUp(equipedHero, tGraphics, screen);
+                screen.refresh();
 //                ПОМЕТКА
             }
             System.out.println("У вас " + equipedHero.exp() + "/" + equipedHero.nextLvl() + " опыта.");
@@ -238,7 +245,7 @@ public class ThirdMain {
                 tGraphics.putString(10, 10, "Напишите название сохранения.");
                 screen.refresh();
 //                System.out.println("Напишите название сохранения.");
-                scanner.nextLine();
+//                scanner.nextLine();
 //                saveName = scanner.nextLine();
                 keyStroke = screen.readInput();
                 saveName = keyStroke.getCharacter().toString();
@@ -333,7 +340,7 @@ public class ThirdMain {
                     }
                     screen.refresh();
                     int switcherMonster = Integer.valueOf("" + screen.readInput().getCharacter());
-                    int result = fightResult(equipedHeroGarm, allMonsters.monstersList().get(switcherMonster - 1));
+                    int result = fightResult(equipedHeroGarm, allMonsters.monstersList().get(switcherMonster - 1), tGraphics, screen);
                     if (result == 0) {
                         WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.monstersList().get(switcherMonster - 1).itemDrop());
                         String currentMonster = allMonsters.monstersList().get(switcherMonster - 1).name();
@@ -348,7 +355,7 @@ public class ThirdMain {
                     tGraphics.putString(10, 10, "Введите сколько часов вы хотите отдохнуть: ");
                     screen.refresh();
 //                    System.out.println("Введите сколько часов вы хотите отдохнуть: ");
-                    int hours = scanner.nextInt();
+                    int hours = Integer.valueOf("" + screen.readInput().getCharacter());
                     rest(equipedHeroGarm, hours);
                 } else if (switcherMode == '3'){
                     while(true) {
