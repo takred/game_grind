@@ -5,12 +5,15 @@ import com.company.character.GrindCharacter;
 import com.company.character.NakedGrindCharacter;
 import com.company.character.PersistentGrindCharacter;
 import com.company.doll.Doll;
-import com.company.doll.PersistentDoll;
-import com.company.doll.InventoryDollCopy;
 import com.company.doll.FileDoll;
+import com.company.doll.InventoryDollCopy;
+import com.company.doll.PersistentDoll;
 import com.company.items.AllItems;
 import com.company.items.Item;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
+import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.dialogs.TextInputDialog;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -22,17 +25,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class ThirdMain {
-    static int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster, TextGraphics tGraphics, Screen screen) throws IOException {
+public class Game {
+
+    Screen screen;
+    TextGraphics tGraphics;
+
+    int fightResult(GrindCharacter equipedHero, NakedGrindCharacter monster) throws IOException {
         for (int i = 0; i < 1000; i++) {
-            boolean resultHeroAttack = heroAttack(equipedHero, monster, tGraphics, screen);
+            boolean resultHeroAttack = heroAttack(equipedHero, monster);
             if (resultHeroAttack) {
                 return 0;
             }
             if(equipedHero.perkDoubleAttack()){
                 System.out.println("Из-за особенности \"Двойной удар\", вы наносите ещё 1 удар.");
-                resultHeroAttack = heroAttack(equipedHero, monster, tGraphics, screen);
+                resultHeroAttack = heroAttack(equipedHero, monster);
                 if (resultHeroAttack){
                     return 0;
                 }
@@ -45,7 +53,7 @@ public class ThirdMain {
         return 2;
     }
 
-    static GrindCharacter lvlUp(GrindCharacter hero, TextGraphics tGraphics, Screen screen) throws IOException {
+    GrindCharacter lvlUp(GrindCharacter hero) throws IOException {
         hero.increaseLvl();
         if (hero.lvl() % 4 == 0 && hero.lvl() != 32) {
             tGraphics.putString(10, 11, "Выберите усиление : 1 - увеличить максимальный запас здоровья на 20;" +
@@ -76,16 +84,31 @@ public class ThirdMain {
         return hero;
     }
 
-    static void rest(GrindCharacter hero, int hours){
-        if (hero.maxHp() - hero.hp() < 20 * hours) {
-            hero.increaseHp(hero.maxHp() - hero.hp());
-        }else{
-            hero.increaseHp(20 * hours);
+    void rest(GrindCharacter hero, NakedGrindCharacter monster,GrindInventory invGarm, List<Item> allItems, List<WeightDrop> monsterItemDrops, Map<String, Integer> countKill, int hours) throws IOException {
+        for (int i = 0; i < hours; i++) {
+            int fight = ThreadLocalRandom.current().nextInt(0, 100);
+            if (fight < 50) {
+                if (hero.maxHp() - hero.hp() < 20) {
+                    hero.increaseHp(hero.maxHp() - hero.hp());
+                } else {
+                    hero.increaseHp(20);
+                    System.out.println("Вы отдохнули.");
+                }
+            } else {
+                fightResult(hero, monster);
+                WeightDrop.collect(invGarm, allItems, monsterItemDrops);
+                countKill.put(monster.name(), countKill.get(monster.name()) + 1);
+                System.out.println("На вас напали и прервали отдых.");
+                break;
+            }
         }
-        System.out.println("Вы отдохнули.");
     }
 
-    static boolean heroAttack(GrindCharacter equipedHero, NakedGrindCharacter monster, TextGraphics tGraphics, Screen screen) throws IOException {
+//    static void attackInTimeRelax(GrindCharacter hero, NakedGrindCharacter monster, TextGraphics tGraphics, Screen screen){
+//
+//    }
+
+    boolean heroAttack(GrindCharacter equipedHero, NakedGrindCharacter monster) throws IOException {
         int currentDamageHero = equipedHero.currentDamage();
         if (monster.hp() - currentDamageHero > 0) {
             monster.decreaseHp(currentDamageHero);
@@ -101,7 +124,7 @@ public class ThirdMain {
                 screen.clear();
                 tGraphics.putString(10, 10, "Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
 //                System.out.println("Вы повысили уровень до " + (equipedHero.lvl() + 1) + "-го !");
-                lvlUp(equipedHero, tGraphics, screen);
+                lvlUp(equipedHero);
                 screen.refresh();
 //                ПОМЕТКА
             }
@@ -110,7 +133,7 @@ public class ThirdMain {
         }
         return false;
     }
-    static boolean monsterAttack(GrindCharacter hero, NakedGrindCharacter monster){
+    boolean monsterAttack(GrindCharacter hero, NakedGrindCharacter monster){
         int currentDamageMonster = monster.currentDamage();
         if (hero.hp() - currentDamageMonster > 0) {
             hero.decreaseHp(currentDamageMonster);
@@ -125,12 +148,12 @@ public class ThirdMain {
         return false;
     }
 
-    static AllMonsters monsterList() throws IOException {
+    AllMonsters monsterList() throws IOException {
         AllMonsters allMonsters = new AllMonsters("AllMonsters.txt");
         return allMonsters;
     }
 
-    static void printListInvent(GrindInventory inv, List<String> category, TextGraphics tGraphics){
+    void printListInvent(GrindInventory inv, List<String> category){
         if (inv.items().size() > 0) {
             tGraphics.putString(10, 10, "Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
             for (int a = 0; a < inv.items().size(); a++) {
@@ -145,7 +168,7 @@ public class ThirdMain {
             System.out.println("В сумке пусто.");
         }
     }
-    static void printListEquipInvent(Doll inv, List<String> category, TextGraphics tGraphics){
+    void printListEquipInvent(Doll inv, List<String> category){
         for (int a = 0; a < inv.items().size(); a++) {
             if (inv.items().get(a) != null) {
                 tGraphics.putString(10, 10 + a, a + 1 + ") " + category.get(a) + " - " + inv.items().get(a).name);
@@ -156,7 +179,7 @@ public class ThirdMain {
             }
         }
     }
-    static void printInfoItem(Item item, TextGraphics tGraphics){
+    void printInfoItem(Item item){
         if (item.category != 3) {
             tGraphics.putString(10, 10, item.name);
             tGraphics.putString(10, 11, "Прибавка к здоровью - " + item.plusMaxHp);
@@ -171,7 +194,7 @@ public class ThirdMain {
 //            System.out.println("Увеличение максимального порога урона - " + item.plusMaxStr);
         }
     }
-    static void printInfoEquipItem(Item itemByIndex, TextGraphics tGraphics) {
+    void printInfoEquipItem(Item itemByIndex) {
         if (itemByIndex.category != 3) {
             tGraphics.putString(10, 10, itemByIndex.name);
             tGraphics.putString(10, 11, "Прибавка к здоровью - " + itemByIndex.plusMaxHp);
@@ -186,7 +209,7 @@ public class ThirdMain {
             System.out.println("Увеличение максимального порога урона - " + itemByIndex.plusMaxStr);
         }
     }
-    static String createNewHero() throws IOException {
+    String createNewHero() throws IOException {
         Scanner scanner = new  Scanner(System.in);
         System.out.println("Напишите название сохранения.");
         String saveName = scanner.nextLine();
@@ -207,7 +230,7 @@ public class ThirdMain {
         return saveName;
     }
 
-    public static void main(String[] args) throws IOException {
+    public void startGame() throws IOException {
         Scanner scanner = new Scanner(System.in);
 //        String saveName = "";
         String saveName = "";
@@ -228,13 +251,15 @@ public class ThirdMain {
         AllItems allItems = new AllItems("AllItems.txt");
 
         Terminal terminal = new DefaultTerminalFactory().createTerminal();
-        Screen screen = new TerminalScreen(terminal);
-        TextGraphics tGraphics = screen.newTextGraphics();
+        screen = new TerminalScreen(terminal);
+        tGraphics = screen.newTextGraphics();
         screen.startScreen();
+        WindowBasedTextGUI windowBasedTextGUI = new MultiWindowTextGUI(screen);
 
         while (true) {
             screen.clear();
-            tGraphics.putString(10, 10, "Выберите действие : 1 - Создать нового персонажа; 2 - Загрузить персонажа.");
+            tGraphics.putString(10, 10, "Выберите действие : 1 - Создать нового персонажа;");
+            tGraphics.putString(10, 11, "Выберите действие : 2 - Загрузить персонажа.");
             screen.refresh();
             KeyStroke keyStroke = screen.readInput();
             System.out.println(keyStroke.getCharacter());
@@ -247,14 +272,15 @@ public class ThirdMain {
 //                System.out.println("Напишите название сохранения.");
 //                scanner.nextLine();
 //                saveName = scanner.nextLine();
-                keyStroke = screen.readInput();
+//                keyStroke = screen.readInput();
                 saveName = keyStroke.getCharacter().toString();
+                saveName = TextInputDialog.showDialog(windowBasedTextGUI, "save name", null, "Character");
                 screen.clear();
                 tGraphics.putString(10, 10, "Введите имя персонажа.");
                 screen.refresh();
 //                System.out.println("Введите имя персонажа.");
-                keyStroke = screen.readInput();
-                String nameHero = keyStroke.toString();
+                //keyStroke = screen.readInput();
+                String nameHero =TextInputDialog.showDialog(windowBasedTextGUI, "Character name", null, "Character");
 //                String nameHero = scanner.nextLine();
                 nakedHeroGarm = new NakedGrindCharacter(nameHero, 100, 100, 8, 11, 1, 10, 0, false);
 
@@ -340,7 +366,7 @@ public class ThirdMain {
                     }
                     screen.refresh();
                     int switcherMonster = Integer.valueOf("" + screen.readInput().getCharacter());
-                    int result = fightResult(equipedHeroGarm, allMonsters.monstersList().get(switcherMonster - 1), tGraphics, screen);
+                    int result = fightResult(equipedHeroGarm, allMonsters.monstersList().get(switcherMonster - 1));
                     if (result == 0) {
                         WeightDrop.collect(invGarm, allItems.itemsList(), allMonsters.monstersList().get(switcherMonster - 1).itemDrop());
                         String currentMonster = allMonsters.monstersList().get(switcherMonster - 1).name();
@@ -356,7 +382,7 @@ public class ThirdMain {
                     screen.refresh();
 //                    System.out.println("Введите сколько часов вы хотите отдохнуть: ");
                     int hours = Integer.valueOf("" + screen.readInput().getCharacter());
-                    rest(equipedHeroGarm, hours);
+                    rest(equipedHeroGarm, allMonsters.monstersList().get(0), invGarm, allItems.itemsList(), allMonsters.monstersList().get(0).itemDrop(), countKill, hours);
                 } else if (switcherMode == '3'){
                     while(true) {
                         screen.clear();
@@ -370,7 +396,7 @@ public class ThirdMain {
                         } else if (switcherModeInv == '1') {
                             while(true) {
                                 screen.clear();
-                                printListInvent(invGarm, category, tGraphics);
+                                printListInvent(invGarm, category);
                                 screen.refresh();
                                 int switcherInv = 0;
                                 if (invGarm.items().size() > 0) {
@@ -379,7 +405,7 @@ public class ThirdMain {
                                 if (switcherInv != 0) {
                                     screen.clear();
                                     Item itemByIndex = invGarm.items().get(switcherInv - 1);
-                                    printInfoItem(itemByIndex, tGraphics);
+                                    printInfoItem(itemByIndex);
                                     if (itemByIndex.category != 3) {
                                         tGraphics.putString(10, 12, "Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
 //                                        System.out.println("Выберите действие: 1 - Надеть предмет; 0 - Вернуться в инвентарь.");
@@ -405,7 +431,7 @@ public class ThirdMain {
                         } else if (switcherModeInv == '2') {
                             while(true) {
                                 screen.clear();
-                                printListEquipInvent(equipInvGarm, category, tGraphics);
+                                printListEquipInvent(equipInvGarm, category);
                                 tGraphics.putString(10, 10 + equipInvGarm.items().size(), "Выберите предмет, чтобы посмотреть его характеристики или нажмите 0, чтобы вернуться назад.");
                                 screen.refresh();
 //                                int switcherInv = scanner.nextInt();
@@ -415,7 +441,7 @@ public class ThirdMain {
                                     final boolean on = !equipInvGarm.isOn(cat);
                                     if (on) {
                                         screen.clear();
-                                        printInfoEquipItem(equipInvGarm.items().get(cat), tGraphics);
+                                        printInfoEquipItem(equipInvGarm.items().get(cat));
                                         tGraphics.putString(10, 10, "Выберите действие: любая клавиша - Вернуться в меню надетых предметов.");
                                         screen.refresh();
                                         screen.readInput();
